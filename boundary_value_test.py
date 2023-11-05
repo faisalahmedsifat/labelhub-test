@@ -15,6 +15,8 @@ class MySeleniumUnitTest(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
 
+    
+    '''@author - Hasibullah Hasib'''
     def test_email_boundary_values(self):
         """ Test email boundary conditions """
         self.driver.get(self.base_url + "/login")
@@ -52,6 +54,7 @@ class MySeleniumUnitTest(unittest.TestCase):
                 login_button = self.driver.find_element(By.XPATH, "/html/body/div/div/div[2]/form/button")
                 login_button.click()
    
+    '''@author - Hasibullah Hasib'''
     def test_password_complexity_boundary_values(self):
         """ Test password complexity boundary conditions """
         self.driver.get(self.base_url + "/login")
