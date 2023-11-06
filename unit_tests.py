@@ -3,19 +3,19 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 
+
 class MySeleniumUnitTest(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Chrome()
         self.base_url = "http://182.163.99.86"
-        
 
     def tearDown(self):
         self.driver.quit()
-        
+
     def test_login_successful(self):
         # driver = self.driver
         self.driver.get(self.base_url + "/login")
-        
+
         # wait for the page to load
         self.driver.implicitly_wait(10)
 
@@ -36,6 +36,7 @@ class MySeleniumUnitTest(unittest.TestCase):
             self.fail("Login failed")
 
     '''@author-Hasib'''
+
     # No Locked state implemented
     def test_max_incorrect_login_attempts(self):
         """ Test the transition to a 'locked' state after maximum incorrect login attempts """
@@ -53,12 +54,13 @@ class MySeleniumUnitTest(unittest.TestCase):
             # Clear fields for the next attempt
             email_input.clear()
             password_input.clear()
-        
+
         # Check for lockout message
         lockout_message = self.driver.find_element(By.XPATH, "//div[contains(@class, 'lockout-message')]")
         self.assertIn("Your account has been locked", lockout_message.text)
 
     '''@author-Hasib'''
+
     # Testing the Session Management of the Authentication feature
     def test_session_management(self):
         """ Test that the session is initiated upon login and terminated upon logout """
@@ -80,9 +82,7 @@ class MySeleniumUnitTest(unittest.TestCase):
         session_cookie = self.driver.get_cookie("session")
         self.assertIsNone(session_cookie, "Session cookie should be cleared after logout")
 
-   
 
 if __name__ == "__main__":
     unittest.main()
     print("Everything passed")
-    
