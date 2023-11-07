@@ -5,26 +5,24 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 import time
 
-
 class MySeleniumUnitTest(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Chrome()
         self.base_url = "http://182.163.99.86"
+        
 
     def tearDown(self):
         self.driver.quit()
 
     '''@author - Hasibullah Hasib'''
-
     def measure_load_time(self, url):
         """ Measures the page load time of a given URL """
         start_time = time.time()
         self.driver.get(url)
         load_time = time.time() - start_time
         return load_time
-
+    
     '''@author - Hasibullah Hasib'''
-
     def test_login_page_load_time(self):
         """ Tests the load time of the login page """
         load_time = self.measure_load_time(self.base_url + "/login")
@@ -32,7 +30,6 @@ class MySeleniumUnitTest(unittest.TestCase):
         self.assertLess(load_time, 3, "Login page load time should be less than 3 seconds")
 
     '''@author - Hasibullah Hasib'''
-
     def test_login_action_response_time(self):
         """ Tests the response time of the login action """
         self.driver.get(self.base_url + "/login")
@@ -53,11 +50,13 @@ class MySeleniumUnitTest(unittest.TestCase):
                            driver.find_element(By.CLASS_NAME, "error").is_displayed()
         )
         response_time = time.time() - start_time
-
+        
         print(f"Login Action Response Time: {response_time} seconds")
         self.assertLess(response_time, 2, "Login action response time should be less than 2 seconds")
+
 
 
 if __name__ == "__main__":
     unittest.main()
     print("Everything passed")
+    
