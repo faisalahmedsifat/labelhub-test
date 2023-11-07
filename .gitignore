@@ -1,3 +1,4 @@
 /labelhub
 /labelhubenv
 /__pycache__
+*.pyc
