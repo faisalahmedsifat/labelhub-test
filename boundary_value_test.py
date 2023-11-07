@@ -10,21 +10,18 @@ class MySeleniumUnitTest(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Chrome()
         self.base_url = "http://182.163.99.86"
-        
 
     def tearDown(self):
         self.driver.quit()
 
-    
     '''@author - Hasibullah Hasib'''
+
     def test_email_boundary_values(self):
         """ Test email boundary conditions """
         self.driver.get(self.base_url + "/login")
 
-          
         # wait for the page to load
         self.driver.implicitly_wait(10)
-
 
         # Assuming the local part of the email should be at least 1 character and at most 10 characters as an example.
         min_length_local = 1
@@ -34,7 +31,8 @@ class MySeleniumUnitTest(unittest.TestCase):
             "just_below_min_local": "",  # No local part
             "min_length_local": "a@example.com",  # Min length for local part
             "just_above_min_local": "ab@example.com",  # Just above min length for local part
-            "just_below_max_local": "a" * (max_length_local - 1) + "@example.com",  # Just below max length for local part
+            "just_below_max_local": "a" * (max_length_local - 1) + "@example.com",
+            # Just below max length for local part
             "max_length_local": "a" * max_length_local + "@example.com",  # Max length for local part
             "above_max_local": "a" * (max_length_local + 1) + "@example.com",  # Above max length for local part
             "no_at_symbol": "invalidemail.com",  # No "@" symbol
@@ -53,15 +51,15 @@ class MySeleniumUnitTest(unittest.TestCase):
                 password_input.send_keys("ValidPassword123!")  # Use a valid password here
                 login_button = self.driver.find_element(By.XPATH, "/html/body/div/div/div[2]/form/button")
                 login_button.click()
-   
+
     '''@author - Hasibullah Hasib'''
+
     def test_password_complexity_boundary_values(self):
         """ Test password complexity boundary conditions """
         self.driver.get(self.base_url + "/login")
-          
+
         # wait for the page to load
         self.driver.implicitly_wait(10)
-
 
         # Define boundary values
         boundary_values = {
@@ -85,7 +83,8 @@ class MySeleniumUnitTest(unittest.TestCase):
                 password_input.clear()
                 password_input.send_keys(password)
                 login_button = self.driver.find_element(By.XPATH, "/html/body/div/div/div[2]/form/button")
-                login_button.click()               
+                login_button.click()
+
 
 if __name__ == "__main__":
     unittest.main()
