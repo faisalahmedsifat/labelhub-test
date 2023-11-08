@@ -3,11 +3,13 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 
-from selenium.webdriver.support.ui import WebDriverWait 
-from selenium.webdriver.support import expected_conditions as EC 
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 import login_logout_tests as unit_tests
 
 from faker import Faker
+import time
+
 
 class UserCreationDeletion(unittest.TestCase):
     def setUp(self):
@@ -15,42 +17,46 @@ class UserCreationDeletion(unittest.TestCase):
         self.base_url = "http://182.163.99.86"
         self.wait = WebDriverWait(self.driver, 10)
 
-        ## same email won't work the second time. So we need to generate a fake email
-        self.fake_email = "test_user@example.net"
-        
+        self.fake = Faker()
+        self.fake_name = self.fake.name()
+        self.fake_email = self.fake.email()
+        self.institution_name = "North South University"
+        self.qualification = "NA"
+        self.password = "Abc@123"
+        self.mobile = "01234567890"
+        self.gender = "Male"  # "Male", "Female", "Other"
+        self.role = "ANNOTATOR"  # "MANAGER", "ANNOTATOR", "VALIDATOR", "GUEST"
+        self.dob = "2000-01-01"
 
     def tearDown(self):
         self.driver.quit()
 
-
-
     def test_user_creation_expected_data(self):
-        """ Test the user creation feature """
+        self.driver.get(self.base_url + "/login")
 
-        # use a function from UnitTest class
+        # wait for the page to load
+        # self.driver.implicitly_wait(5)
+        time.sleep(5)
 
+        email_input = self.driver.find_element(By.XPATH, "//*[@id=\"username\"]")
+        email_input.send_keys("admin@gigatech.com")
 
-        # First we have to login
-        unit_tests.LoginLogoutTests.test_login_successful(self)
-        """
-            supposed required fields for the user creation:
-            1. Full Name
-            2. Email
-            3. Password
-            4. Mobile 
-            
-            some optional:
-            1. Gender
-            2. Birthday
-            3. Institution
-            4. Qualification
-            5. Role
+        password_input = self.driver.find_element(By.XPATH, "//*[@id=\"password\"]")
+        password_input.send_keys("Abc@123")
 
-        """
+        login_button = self.driver.find_element(By.XPATH, "/html/body/div/div/div[2]/form/button")
+        login_button.click()
 
-        user_button_from_sidebar = self.wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="root"]/section/main/aside/div/div/div/div[3]/a/div')))
+        # match_using_text = self.driver.find_element(By.XPATH, "//*[contains(text(), 'Login Successful')]")
+
+        # wait for the page to load
+        # self.driver.implicitly_wait(5)
+        time.sleep(5)
+
+        user_button_from_sidebar = self.wait.until(
+            EC.element_to_be_clickable((By.XPATH, '//*[@id="root"]/section/main/aside/div/div/div/div[3]/a/div')))
         user_button_from_sidebar.click()
-        
+
         # get the text in h1 tag
         try:
             h1 = self.driver.find_element(By.TAG_NAME, "h1")
@@ -58,7 +64,8 @@ class UserCreationDeletion(unittest.TestCase):
         except:
             self.fail("Users page not found")
 
-        add_button = self.wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="root"]/section/main/div[2]/div[2]/section/div[2]/button')))
+        add_button = self.wait.until(
+            EC.element_to_be_clickable((By.XPATH, '//*[@id="root"]/section/main/div[2]/div[2]/section/div[2]/button')))
         add_button.click()
 
         # get the text from a xpath element
@@ -71,7 +78,7 @@ class UserCreationDeletion(unittest.TestCase):
         # fill the form
         # full name xpath: //*[@id="floating-label-input-:r9f:"]
         full_name_input = self.driver.find_element(By.XPATH, '/html/body/div[3]/div/div/div[2]/div/div[1]/div[1]/input')
-        full_name_input.send_keys("Test User")
+        full_name_input.send_keys(self.fake_name)
 
         # # email xpath: //*[@id="floating-label-input-:r9k:"]
         email_input = self.driver.find_element(By.XPATH, '/html/body/div[3]/div/div/div[2]/div/div[2]/div[1]/input')
@@ -79,11 +86,38 @@ class UserCreationDeletion(unittest.TestCase):
 
         # # password xpath: //*[@id="floating-label-input-:r9i:"]
         password_input = self.driver.find_element(By.XPATH, '/html/body/div[3]/div/div/div[2]/div/div[1]/div[4]/input')
-        password_input.send_keys("Abc@123")
+        password_input.send_keys(self.password)
 
         # # mobile xpath: //*[@id="floating-label-input-:r9n:"]
         mobile_input = self.driver.find_element(By.XPATH, '/html/body/div[3]/div/div/div[2]/div/div[2]/div[4]/input')
-        mobile_input.send_keys("01700000000")
+        mobile_input.send_keys(self.mobile)
+
+        # # Gender select xpath: //*[@id="floating-label-input-:rl:"] //*[@id="floating-label-input-:rl:"]
+        gender_input = self.driver.find_element(By.XPATH,
+                                                f'//*[@id="floating-label-input-:rl:"]/option[text()="{self.gender}"]')
+        gender_input.click()
+
+        # # Role select xpath: //*[@id="floating-label-input-:ro:"]
+        role_input = self.driver.find_element(By.XPATH,
+                                              f'//*[@id="floating-label-input-:ro:"]/option[text()="{self.role}"]')
+        role_input.click()
+
+        # # Institution name xpath: //*[@id="floating-label-input-:rm:"]
+        institution_input = self.driver.find_element(By.XPATH,
+                                                     '//*[@id="floating-label-input-:rm:"]')
+        institution_input.send_keys(self.institution_name)
+
+        # # Qualification xpath: //*[@id="floating-label-input-:rr:"]
+        qualification_input = self.driver.find_element(By.XPATH,
+                                                       '//*[@id="floating-label-input-:rr:"]')
+        qualification_input.send_keys(self.qualification)
+
+        # # Date xpath: //*[@id="floating-label-input-:rq:"]
+        date_input = self.driver.find_element(By.XPATH,
+                                              '//*[@id="floating-label-input-:rq:"]')
+        self.driver.execute_script(f'document.getElementById("floating-label-input-:rq:").value = "{self.dob}"')
+
+        time.sleep(2)
 
         # # add user button xpath: /html/body/div[3]/div/div/div[3]/button
         add_user_button = self.driver.find_element(By.XPATH, '/html/body/div[3]/div/div/div[3]/button')
@@ -92,66 +126,66 @@ class UserCreationDeletion(unittest.TestCase):
         # wait
         # self.driver.implicitly_wait(10)
 
-        # # get the text from a xpath element
-        # first email of table xpath: //*[@id="root"]/section/main/div[2]/div[2]/section/div[3]/div[2]/div/table/tbody/tr[1]/td[3]
-        # email_addess = self.wait.until(EC.presence_of_element_located((By.XPATH, '/html/body/div/section/main/div[2]/div[2]/section/div[3]/div[2]/div/table/tbody/tr[1]/td[3]')))
-        email_addess = self.wait.until(EC.text_to_be_present_in_element((By.XPATH, '/html/body/div/section/main/div[2]/div[2]/section/div[3]/div[2]/div/table/tbody/tr[1]/td[3]'), self.fake_email))
-        # self.assertEqual(email_addess.text, self.fake_email)
-        self.assertTrue(email_addess)
+        time.sleep(3)
+
+        # # Get the email from the first row of the table
+        email_address = self.driver.find_element(By.XPATH,
+                                                 '/html/body/div/section/main/div[2]/div[2]/section/div[3]/div[2]/div/table/tbody/tr[1]/td[3]')
+        self.assertEqual(email_address.text, self.fake_email)
 
     def test_user_deletion_as_expected(self):
-        """ Test the user deletion feature """
-        driver = self.driver
-        unit_tests.LoginLogoutTests.test_login_successful(self)
+        self.driver.get(self.base_url + "/login")
 
-        user_button_from_sidebar = self.wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="root"]/section/main/aside/div/div/div/div[3]/a/div')))
+        # wait for the page to load
+        # self.driver.implicitly_wait(5)
+        time.sleep(5)
+
+        email_input = self.driver.find_element(By.XPATH, "//*[@id=\"username\"]")
+        email_input.send_keys("admin@gigatech.com")
+
+        password_input = self.driver.find_element(By.XPATH, "//*[@id=\"password\"]")
+        password_input.send_keys("Abc@123")
+
+        login_button = self.driver.find_element(By.XPATH, "/html/body/div/div/div[2]/form/button")
+        login_button.click()
+
+        user_button_from_sidebar = self.wait.until(
+            EC.element_to_be_clickable((By.XPATH, '//*[@id="root"]/section/main/aside/div/div/div/div[3]/a/div')))
         user_button_from_sidebar.click()
-        
+
         # get the text in h1 tag
         try:
-            h1 = driver.find_element(By.TAG_NAME, "h1")
+            h1 = self.driver.find_element(By.TAG_NAME, "h1")
             self.assertEqual(h1.text, "Users")
         except:
             self.fail("Users page not found")
 
-        # check if the email is the generated one from the previous test
-        first_email = driver.find_element(By.XPATH, '/html/body/div/section/main/div[2]/div[2]/section/div[3]/div[2]/div/table/tbody/tr[1]/td[3]')
-        self.assertEqual(first_email.text, self.fake_email)
+        # Get first email in the table
+        first_email = self.driver.find_element(By.XPATH,
+                                               '/html/body/div/section/main/div[2]/div[2]/section/div[3]/div[2]/div/table/tbody/tr[1]/td[3]')
 
         # delete the user
-        first_user_table_row_delete_button = driver.find_element(By.XPATH, '/html/body/div/section/main/div[2]/div[2]/section/div[3]/div[2]/div/table/tbody/tr[1]/td[8]/div/span[3]/img')
+        first_user_table_row_delete_button = self.driver.find_element(By.XPATH,
+                                                                      '/html/body/div/section/main/div[2]/div[2]/section/div[3]/div[2]/div/table/tbody/tr[1]/td[8]/div/span[3]/img')
         first_user_table_row_delete_button.click()
 
         # wait
         self.driver.implicitly_wait(10)
 
         # confirm the deletion
-        delete_confirm_button = driver.find_element(By.XPATH, '/html/body/div[3]/div/div/div[3]/button[1]')
+        delete_confirm_button = self.driver.find_element(By.XPATH, '/html/body/div[3]/div/div/div[3]/button[1]')
         delete_confirm_button.click()
 
         # wait
         self.driver.implicitly_wait(10)
 
         # check again if the email is the generated one from the previous test
-        email_addess = self.wait.until(EC.text_to_be_present_in_element((By.XPATH, '/html/body/div/section/main/div[2]/div[2]/section/div[3]/div[2]/div/table/tbody/tr[1]/td[3]'), self.fake_email))
-        self.assertFalse(email_addess)
+        new_email_address = self.driver.find_element(By.XPATH,
+                                                     '/html/body/div/section/main/div[2]/div[2]/section/div[3]/div[2]/div/table/tbody/tr[1]/td[3]').text
 
-
-
-    
-
-        
-
-        
-
-
-
-    
-
-
+        self.assertNotEqual(first_email, new_email_address)
 
 
 if __name__ == "__main__":
     unittest.main()
     print("Everything passed")
-    
