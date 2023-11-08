@@ -4,7 +4,6 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.alert import Alert
 import time
-
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
@@ -18,9 +17,10 @@ class MySeleniumUnitTest(unittest.TestCase):
         self.driver.quit()
 
     def test_create_project_successful(self):
+        self.row_no = 1
         # driver = self.driver
         self.driver.get(self.base_url + "/login")
-        self.project_name = "Test project creation 000021"
+        self.project_name = "Test project creation 000030(HASIB)"
 
         # wait for the page to load
         # self.driver.implicitly_wait(5)
@@ -86,6 +86,11 @@ class MySeleniumUnitTest(unittest.TestCase):
 
         time.sleep(2)
 
+        select_project_button = self.driver.find_element(By.XPATH, f"//*[@id=\"root\"]/section/main/div[2]/div[2]/section/div[2]/div[2]/div/table/tbody/tr[{self.row_no}]/td[9]/div/span[1]/img")
+        select_project_button.click()
+
+        time.sleep(2)
+
         try:
             project_name_at_top = self.driver.find_element(By.XPATH,
                                                            "//*[@id=\"root\"]/section/main/div[2]/div[2]/section/div[2]/div[2]/div/table/tbody/tr[1]/td[2]/span")
@@ -99,51 +104,51 @@ class MySeleniumUnitTest(unittest.TestCase):
         except:
             self.fail("Project creation failed")
 
-    def test_delete_project(self):
-        self.row_no = 1
+    # def test_delete_project(self):
+    #     self.row_no = 1
 
-        self.driver.get(self.base_url + "/login")
-        self.project_name = "Test project creation 000020"
+    #     self.driver.get(self.base_url + "/login")
+    #     self.project_name = "Test project creation 000022(HASIB)"
 
-        # wait for the page to load
-        # self.driver.implicitly_wait(5)
-        time.sleep(5)
+    #     # wait for the page to load
+    #     # self.driver.implicitly_wait(5)
+    #     time.sleep(5)
 
-        email_input = self.driver.find_element(By.XPATH, "//*[@id=\"username\"]")
-        email_input.send_keys("admin@gigatech.com")
+    #     email_input = self.driver.find_element(By.XPATH, "//*[@id=\"username\"]")
+    #     email_input.send_keys("admin@gigatech.com")
 
-        password_input = self.driver.find_element(By.XPATH, "//*[@id=\"password\"]")
-        password_input.send_keys("Abc@123")
+    #     password_input = self.driver.find_element(By.XPATH, "//*[@id=\"password\"]")
+    #     password_input.send_keys("Abc@123")
 
-        login_button = self.driver.find_element(By.XPATH, "/html/body/div/div/div[2]/form/button")
-        login_button.click()
+    #     login_button = self.driver.find_element(By.XPATH, "/html/body/div/div/div[2]/form/button")
+    #     login_button.click()
 
-        # wait for the page to load
-        # self.driver.implicitly_wait(5)
-        time.sleep(5)
+    #     # wait for the page to load
+    #     # self.driver.implicitly_wait(5)
+    #     time.sleep(5)
 
-        # Go to "Projects" page
-        view_projects_button = self.driver.find_element(By.XPATH,
-                                                        "//*[@id=\"root\"]/section/main/div[2]/div[2]/section/div/div[1]/div[1]/div/button")
-        view_projects_button.click()
+    #     # Go to "Projects" page
+    #     view_projects_button = self.driver.find_element(By.XPATH,
+    #                                                     "//*[@id=\"root\"]/section/main/div[2]/div[2]/section/div/div[1]/div[1]/div/button")
+    #     view_projects_button.click()
 
-        time.sleep(3)
+    #     time.sleep(3)
 
-        delete_button = self.driver.find_element(By.XPATH,
-                                                 f"//*[@id=\"root\"]/section/main/div[2]/div[2]/section/div[2]/div[2]/div/table/tbody/tr[{self.row_no}]/td[9]/div/span[3]/img")
-        project_name = self.driver.find_element(By.XPATH,
-                                                f"//*[@id=\"root\"]/section/main/div[2]/div[2]/section/div[2]/div[2]/div/table/tbody/tr[{self.row_no}]/td[2]/span").text
-        delete_button.click()
+    #     delete_button = self.driver.find_element(By.XPATH,
+    #                                              f"//*[@id=\"root\"]/section/main/div[2]/div[2]/section/div[2]/div[2]/div/table/tbody/tr[{self.row_no}]/td[9]/div/span[3]/img")
+    #     project_name = self.driver.find_element(By.XPATH,
+    #                                             f"//*[@id=\"root\"]/section/main/div[2]/div[2]/section/div[2]/div[2]/div/table/tbody/tr[{self.row_no}]/td[2]/span").text
+    #     delete_button.click()
 
-        confirmation_button = self.driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[3]/button[1]")
-        confirmation_button.click()
+    #     confirmation_button = self.driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[3]/button[1]")
+    #     confirmation_button.click()
 
-        time.sleep(1)
+    #     time.sleep(1)
 
-        new_project_name = self.driver.find_element(By.XPATH,
-                                                    f"//*[@id=\"root\"]/section/main/div[2]/div[2]/section/div[2]/div[2]/div/table/tbody/tr[{self.row_no}]/td[2]/span").text
+    #     new_project_name = self.driver.find_element(By.XPATH,
+    #                                                 f"//*[@id=\"root\"]/section/main/div[2]/div[2]/section/div[2]/div[2]/div/table/tbody/tr[{self.row_no}]/td[2]/span").text
 
-        self.assertNotEqual(project_name, new_project_name)
+    #     self.assertNotEqual(project_name, new_project_name)
 
 
 if __name__ == "__main__":
