@@ -8,7 +8,6 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 '''@author-HASIB'''
-
 class UploadDataUnitTest(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Chrome()
@@ -50,11 +49,11 @@ class UploadDataUnitTest(unittest.TestCase):
         time.sleep(5)
 
         file_input = self.driver.find_element(By.CSS_SELECTOR, 'input[type="file"]')
-        # file_input_xPath = self.driver.find_element(By.XPATH, "/html/body/div[4]/div/div/div[2]/div/div/section/div[2]/div/span/a")
 
         check_NER_box = self.driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[2]/div/div/section/div[1]/div/div/div[1]/div/div/div/button")
         check_NER_box.click()
-        csv_file_path = "/Users/hasibullah/Desktop/My Mac/Study Materials/Summer 2023/CSE434/Labelhub/labelhub-test/bangla-text.csv" 
+        '''YOU HAVE TO CHANGE THE FILE PATH'''
+        csv_file_path = "/Users/hasibullah/Desktop/My Mac/Study Materials/Summer 2023/CSE434/Labelhub/labelhub-test/bangla-text.csv"  # To absolute PATH 
         file_input.send_keys(csv_file_path)
 
         select_uploadData_button = self.driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[3]/button")
@@ -72,6 +71,7 @@ class UploadDataUnitTest(unittest.TestCase):
 
     
     def test_create_group(self):
+        self.group_name = "GROUP NAME"
         self.row_no = 1
         self.driver.get(self.base_url + "/login")
         time.sleep(5)
@@ -101,7 +101,8 @@ class UploadDataUnitTest(unittest.TestCase):
         self.driver.find_element(By.XPATH, "/html/body/div/section/main/div[2]/div[2]/section/section[4]/div/div/div[1]/button").click()
         time.sleep(3)
 
-        self.driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[2]/div/div/section[1]/div[1]/input").send_keys("automated_test_group3")
+
+        self.driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[2]/div/div/section[1]/div[1]/input").send_keys(self.group_name)
         self.driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[2]/div/div/section[1]/div[2]/button").send_keys("Ner")
         self.driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[2]/div/div/section[2]/div[1]/div/input").send_keys("sifat")
         time.sleep(3)
