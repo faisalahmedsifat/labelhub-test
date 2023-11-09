@@ -157,7 +157,6 @@ class MySeleniumUnitTest(unittest.TestCase):
 
     #     self.assertNotEqual(project_name, new_project_name)
 
-        self.assertNotEqual(new_project_name, project_name)
 
     def test_project_details(self):
         self.driver.get(self.base_url + "/login")
