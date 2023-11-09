@@ -16,7 +16,9 @@ class MySeleniumUnitTest(unittest.TestCase):
 
     '''@author - Hasibullah Hasib'''
     def measure_load_time(self, url):
-        """ Measures the page load time of a given URL """
+        """ 
+        Measures the page load time of a given URL 
+        """
         start_time = time.time()
         self.driver.get(url)
         load_time = time.time() - start_time
