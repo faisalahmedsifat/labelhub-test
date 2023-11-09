@@ -32,12 +32,26 @@ class UserCreationDeletion(unittest.TestCase):
         self.driver.quit()
 
     def test_user_creation_expected_data(self):
+        """
+        Test user creation with expected data.
+
+        This function tests the user creation functionality by filling out the user creation form with expected data and
+        verifying that the user is successfully created. It uses the Selenium WebDriver to interact with the web page.
+
+        Args:
+            self: The TestUserRelated class instance.
+
+        Returns:
+            None
+        """
+
+        # Navigate to the login page
         self.driver.get(self.base_url + "/login")
 
-        # wait for the page to load
-        # self.driver.implicitly_wait(5)
+        # Wait for the page to load
         time.sleep(5)
 
+        # Fill out the login form
         email_input = self.driver.find_element(By.XPATH, "//*[@id=\"username\"]")
         email_input.send_keys("admin@gigatech.com")
 
@@ -47,93 +61,94 @@ class UserCreationDeletion(unittest.TestCase):
         login_button = self.driver.find_element(By.XPATH, "/html/body/div/div/div[2]/form/button")
         login_button.click()
 
-        # match_using_text = self.driver.find_element(By.XPATH, "//*[contains(text(), 'Login Successful')]")
-
-        # wait for the page to load
-        # self.driver.implicitly_wait(5)
+        # Wait for the page to load
         time.sleep(5)
 
+        # Click the user button in the sidebar
         user_button_from_sidebar = self.wait.until(
             EC.element_to_be_clickable((By.XPATH, '//*[@id="root"]/section/main/aside/div/div/div/div[3]/a/div')))
         user_button_from_sidebar.click()
 
-        # get the text in h1 tag
+        # Verify that the Users page is loaded
         try:
             h1 = self.driver.find_element(By.TAG_NAME, "h1")
             self.assertEqual(h1.text, "Users")
         except:
             self.fail("Users page not found")
 
+        # Click the Add button
         add_button = self.wait.until(
             EC.element_to_be_clickable((By.XPATH, '//*[@id="root"]/section/main/div[2]/div[2]/section/div[2]/button')))
         add_button.click()
 
-        # get the text from a xpath element
+        # Verify that the Add User page is loaded
         try:
             add_user_text = self.driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[1]")
             self.assertEqual(add_user_text.text, "Add User")
         except:
             self.fail("Add User page not found")
 
-        # fill the form
-        # full name xpath: //*[@id="floating-label-input-:r9f:"]
+        # Fill out the user creation form
         full_name_input = self.driver.find_element(By.XPATH, '/html/body/div[3]/div/div/div[2]/div/div[1]/div[1]/input')
         full_name_input.send_keys(self.fake_name)
 
-        # # email xpath: //*[@id="floating-label-input-:r9k:"]
         email_input = self.driver.find_element(By.XPATH, '/html/body/div[3]/div/div/div[2]/div/div[2]/div[1]/input')
         email_input.send_keys(self.fake_email)
 
-        # # password xpath: //*[@id="floating-label-input-:r9i:"]
         password_input = self.driver.find_element(By.XPATH, '/html/body/div[3]/div/div/div[2]/div/div[1]/div[4]/input')
         password_input.send_keys(self.password)
 
-        # # mobile xpath: //*[@id="floating-label-input-:r9n:"]
         mobile_input = self.driver.find_element(By.XPATH, '/html/body/div[3]/div/div/div[2]/div/div[2]/div[4]/input')
         mobile_input.send_keys(self.mobile)
 
-        # # Gender select xpath: //*[@id="floating-label-input-:rl:"] //*[@id="floating-label-input-:rl:"]
         gender_input = self.driver.find_element(By.XPATH,
                                                 f'//*[@id="floating-label-input-:rl:"]/option[text()="{self.gender}"]')
         gender_input.click()
 
-        # # Role select xpath: //*[@id="floating-label-input-:ro:"]
         role_input = self.driver.find_element(By.XPATH,
                                               f'//*[@id="floating-label-input-:ro:"]/option[text()="{self.role}"]')
         role_input.click()
 
-        # # Institution name xpath: //*[@id="floating-label-input-:rm:"]
         institution_input = self.driver.find_element(By.XPATH,
                                                      '//*[@id="floating-label-input-:rm:"]')
         institution_input.send_keys(self.institution_name)
 
-        # # Qualification xpath: //*[@id="floating-label-input-:rr:"]
         qualification_input = self.driver.find_element(By.XPATH,
                                                        '//*[@id="floating-label-input-:rr:"]')
         qualification_input.send_keys(self.qualification)
 
-        # # Date xpath: //*[@id="floating-label-input-:rq:"]
         date_input = self.driver.find_element(By.XPATH,
                                               '//*[@id="floating-label-input-:rq:"]')
         self.driver.execute_script(f'document.getElementById("floating-label-input-:rq:").value = "{self.dob}"')
 
-        time.sleep(2)
-
-        # # add user button xpath: /html/body/div[3]/div/div/div[3]/button
+        # Click the Add User button
         add_user_button = self.driver.find_element(By.XPATH, '/html/body/div[3]/div/div/div[3]/button')
         add_user_button.click()
 
-        # wait
-        # self.driver.implicitly_wait(10)
-
+        # Wait for the page to load
         time.sleep(3)
 
-        # # Get the email from the first row of the table
+        # Verify that the user was successfully created
         email_address = self.driver.find_element(By.XPATH,
                                                  '/html/body/div/section/main/div[2]/div[2]/section/div[3]/div[2]/div/table/tbody/tr[1]/td[3]')
         self.assertEqual(email_address.text, self.fake_email)
 
     def test_user_deletion_as_expected(self):
+        """
+        Test case to verify that a user can be deleted successfully.
+
+        Steps:
+        1. Login as admin user.
+        2. Navigate to the Users page.
+        3. Get the first email address from the table.
+        4. Delete the user.
+        5. Confirm the deletion.
+        6. Verify that the email address of the deleted user is not present in the table.
+
+        Returns:
+        None
+        """
+        
         self.driver.get(self.base_url + "/login")
 
         # wait for the page to load

@@ -17,7 +17,12 @@ class MySeleniumUnitTest(unittest.TestCase):
     '''@author - Hasibullah Hasib'''
 
     def test_email_boundary_values(self):
-        """ Test email boundary conditions """
+        """
+        Test email boundary conditions.
+
+        This test case checks the boundary conditions for email input field. It tests the minimum and maximum length of the
+        local part of the email, presence of "@" symbol, presence of domain and top-level domain, and a valid email format.
+        """
         self.driver.get(self.base_url + "/login")
 
         # wait for the page to load
@@ -55,7 +60,19 @@ class MySeleniumUnitTest(unittest.TestCase):
     '''@author - Hasibullah Hasib'''
 
     def test_password_complexity_boundary_values(self):
-        """ Test password complexity boundary conditions """
+        """
+        Test password complexity boundary conditions.
+
+        This method tests the boundary conditions for password complexity, including passwords that are below the minimum
+        length, passwords that meet the minimum length but are missing certain types of characters, passwords that are just
+        below the maximum length, passwords that meet the maximum length, and passwords that exceed the maximum length.
+
+        The method uses a dictionary of boundary values, with each key representing a specific test case and each value
+        representing a password to be tested. For each test case, the method enters the password into the password field on
+        the login page, along with a valid username, and clicks the login button. The method then asserts that the resulting
+        page contains an error message indicating that the password is invalid.
+
+        """
         self.driver.get(self.base_url + "/login")
 
         # wait for the page to load

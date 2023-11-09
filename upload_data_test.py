@@ -17,6 +17,10 @@ class UploadDataUnitTest(unittest.TestCase):
         self.driver.quit()
 
     def test_upload_data(self):
+        """
+        This method tests the functionality of uploading data to a project in Labelhub.
+        It logs in to the Labelhub account, navigates to the project, selects the file to upload, and uploads it.
+        """
         self.row_no = 1
         self.driver.get(self.base_url + "/login")
         time.sleep(5)
@@ -71,6 +75,12 @@ class UploadDataUnitTest(unittest.TestCase):
 
     
     def test_create_group(self):
+        """
+        This method tests the creation of a new group in the LabelHub application.
+        It logs in as an admin user, navigates to the projects page, selects a project,
+        creates a new group with a specified name and label type, adds a validator to the group,
+        and saves the changes.
+        """
         self.group_name = "GROUP NAME"
         self.row_no = 1
         self.driver.get(self.base_url + "/login")

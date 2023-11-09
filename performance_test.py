@@ -24,35 +24,48 @@ class MySeleniumUnitTest(unittest.TestCase):
     
     '''@author - Hasibullah Hasib'''
     def test_login_page_load_time(self):
-        """ Tests the load time of the login page """
+        """
+        Tests the load time of the login page.
+
+        Returns:
+            None
+        """
         load_time = self.measure_load_time(self.base_url + "/login")
         print(f"Login Page Load Time: {load_time} seconds")
         self.assertLess(load_time, 3, "Login page load time should be less than 3 seconds")
 
     '''@author - Hasibullah Hasib'''
     def test_login_action_response_time(self):
-        """ Tests the response time of the login action """
-        self.driver.get(self.base_url + "/login")
-        self.driver.implicitly_wait(10)
+            """
+            Tests the response time of the login action.
 
-        email_input = self.driver.find_element(By.XPATH, "//*[@id=\"username\"]")
-        password_input = self.driver.find_element(By.XPATH, "//*[@id=\"password\"]")
-        login_button = self.driver.find_element(By.XPATH, "/html/body/div/div/div[2]/form/button")
+            This function tests the response time of the login action by measuring the time it takes for the login button
+            to be clicked and for the next page to load or for a login failure message to be displayed.
 
-        email_input.send_keys("admin@gigatech.com")
-        password_input.send_keys("Abc@123")
+            Returns:
+                None
+            """
+            self.driver.get(self.base_url + "/login")
+            self.driver.implicitly_wait(10)
 
-        start_time = time.time()
-        login_button.click()
-        # Wait for the next page or a login failure message to confirm the action is complete
-        WebDriverWait(self.driver, 10).until(
-            lambda driver: driver.find_element(By.TAG_NAME, "h1").text == "Dashboard" or
-                           driver.find_element(By.CLASS_NAME, "error").is_displayed()
-        )
-        response_time = time.time() - start_time
-        
-        print(f"Login Action Response Time: {response_time} seconds")
-        self.assertLess(response_time, 2, "Login action response time should be less than 2 seconds")
+            email_input = self.driver.find_element(By.XPATH, "//*[@id=\"username\"]")
+            password_input = self.driver.find_element(By.XPATH, "//*[@id=\"password\"]")
+            login_button = self.driver.find_element(By.XPATH, "/html/body/div/div/div[2]/form/button")
+
+            email_input.send_keys("admin@gigatech.com")
+            password_input.send_keys("Abc@123")
+
+            start_time = time.time()
+            login_button.click()
+            # Wait for the next page or a login failure message to confirm the action is complete
+            WebDriverWait(self.driver, 10).until(
+                lambda driver: driver.find_element(By.TAG_NAME, "h1").text == "Dashboard" or
+                               driver.find_element(By.CLASS_NAME, "error").is_displayed()
+            )
+            response_time = time.time() - start_time
+            
+            print(f"Login Action Response Time: {response_time} seconds")
+            self.assertLess(response_time, 2, "Login action response time should be less than 2 seconds")
 
 
 

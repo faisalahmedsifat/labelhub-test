@@ -17,8 +17,10 @@ class LoginLogoutTests(unittest.TestCase):
         self.driver.quit()
         
     def test_login_successful(self):
+        """
+        Test case to verify successful login functionality.
+        """
         driver = self.driver
-        # driver = self.driver
         driver.get(self.base_url + "/login")
         
         # wait for the page to load
@@ -40,11 +42,17 @@ class LoginLogoutTests(unittest.TestCase):
         except:
             self.fail("Login failed")
 
+
     '''@author-Hasib'''
     # No Locked state implemented
     def test_max_incorrect_login_attempts(self):
+        """
+        Test the transition to a 'locked' state after maximum incorrect login attempts.
+
+        This test case checks if the lockout mechanism is triggered after 10 incorrect login attempts.
+        It enters incorrect login credentials 10 times and checks if the lockout message is displayed.
+        """
         driver = self.driver
-        """ Test the transition to a 'locked' state after maximum incorrect login attempts """
         driver.get(self.base_url + "/login")
         driver.implicitly_wait(10)
         email_input = driver.find_element(By.XPATH, "//*[@id=\"username\"]")
@@ -59,7 +67,7 @@ class LoginLogoutTests(unittest.TestCase):
             # Clear fields for the next attempt
             email_input.clear()
             password_input.clear()
-        
+
         # Check for lockout message
         try:
             lockout_message = driver.find_element(By.XPATH, "//div[contains(@class, 'lockout-message')]")
@@ -70,8 +78,10 @@ class LoginLogoutTests(unittest.TestCase):
     '''@author-Hasib'''
     # Testing the Session Management of the Authentication feature
     def test_session_management(self):
+        """
+        Test that the session is initiated upon login and terminated upon logout.
+        """
         driver = self.driver
-        """ Test that the session is initiated upon login and terminated upon logout """
         # Login first
         self.test_login_successful()
         # Check for a cookie that's set upon login, this is application specific
@@ -95,7 +105,12 @@ class LoginLogoutTests(unittest.TestCase):
 
     # Testing the logout feature
     def test_logout(self):
-        """ Test the logout feature """
+        """Test the logout feature.
+
+        This method tests the logout feature by first ensuring that the user is logged in, then clicking on the
+        expandable button to reveal the logout button. It then clicks on the logout button and ensures that the user is
+        redirected to the login page.
+        """
         wait = self.wait
         driver = self.driver
         self.test_login_successful()
