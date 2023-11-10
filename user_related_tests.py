@@ -31,7 +31,7 @@ class UserCreationDeletion(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
 
-    def test_user_creation_expected_data(self):
+    def test_user_creation_expected_data(self, outside_call=False):
         """
         Test user creation with expected data.
 
@@ -131,7 +131,8 @@ class UserCreationDeletion(unittest.TestCase):
         # Verify that the user was successfully created
         email_address = self.driver.find_element(By.XPATH,
                                                  '/html/body/div/section/main/div[2]/div[2]/section/div[3]/div[2]/div/table/tbody/tr[1]/td[3]')
-        self.assertEqual(email_address.text, self.fake_email)
+        if not outside_call:
+            self.assertEqual(email_address.text, self.fake_email)
 
     def test_user_deletion_as_expected(self):
         """
@@ -199,6 +200,66 @@ class UserCreationDeletion(unittest.TestCase):
                                                      '/html/body/div/section/main/div[2]/div[2]/section/div[3]/div[2]/div/table/tbody/tr[1]/td[3]').text
 
         self.assertNotEqual(first_email, new_email_address)
+
+    def test_create_and_delete_same_email_user(self):
+        """
+        Test case to verify that after deleting a user, same email cannot be used to create a new user
+
+        Steps:
+        1. Login as admin user.
+        2. Navigate to the Users page.
+        3. Create a user with an email
+        4. Delete the user.
+        5. Create another user with the same email
+        6. Verify that the new user was not created
+        """
+
+        self.fake_email = self.fake.email()
+
+        self.test_user_creation_expected_data()
+
+        table = self.driver.find_element(By.XPATH, "//*[@id=\"root\"]/section/main/div[2]/div[2]/section/div[3]/div[2]/div/table")
+
+        # Get the number of rows in the table
+        rows = table.find_elements(By.TAG_NAME, "tr")
+        row_no = 0
+
+        # get the row number of the project where the tr value matches the project name
+        for row in rows:
+            if self.fake_email in row.text:
+                break
+            else:
+                row_no += 1
+
+        delete_button = self.driver.find_element(By.XPATH, f"//*[@id=\"root\"]/section/main/div[2]/div[2]/section/div[3]/div[2]/div/table/tbody/tr[{row_no}]/td[8]/div/span[3]/img")
+        delete_button.click()
+        self.driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[3]/button[1]").click()
+
+        time.sleep(2)
+
+        # logout
+        self.driver.find_element(By.XPATH, "/html/body/div/section/main/div[2]/div[1]/nav/div/button").click()
+        self.driver.find_element(By.XPATH, "/html/body/div[2]/div/div").click()
+
+        time.sleep(2)
+
+        self.test_user_creation_expected_data(outside_call=True)
+
+        # Check whether there is an element with required text
+        try:
+            # message = "Sorry there seem to be an inactive/deleted user associated with this email, reactivate it or use a new email to register"
+            # message_element = self.driver.find_elements(By.XPATH, f"//*[contains(text(), {message})]")
+            # print(message_element)
+            #
+            # if not message_element:
+            #     self.fail("Message not found")
+
+            top_row_email_address = self.driver.find_element(By.XPATH,
+                                                     '/html/body/div/section/main/div[2]/div[2]/section/div[3]/div[2]/div/table/tbody/tr[1]/td[3]')
+
+            self.assertNotEqual(top_row_email_address.text, self.fake_email)
+        except Exception as e:
+            self.fail("Test failed")
 
 
 if __name__ == "__main__":
