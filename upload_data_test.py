@@ -57,7 +57,7 @@ class UploadDataUnitTest(unittest.TestCase):
         check_NER_box = self.driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[2]/div/div/section/div[1]/div/div/div[1]/div/div/div/button")
         check_NER_box.click()
         '''YOU HAVE TO CHANGE THE FILE PATH'''
-        csv_file_path = "/Users/hasibullah/Desktop/My Mac/Study Materials/Summer 2023/CSE434/Labelhub/labelhub-test/bangla-text.csv"  # To absolute PATH 
+        csv_file_path = "c:/Shahidul/Softwares/labelhub-test/bangla-text.csv"  # To absolute PATH
         file_input.send_keys(csv_file_path)
 
         select_uploadData_button = self.driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[3]/button")
@@ -81,7 +81,7 @@ class UploadDataUnitTest(unittest.TestCase):
         creates a new group with a specified name and label type, adds a validator to the group,
         and saves the changes.
         """
-        self.group_name = "GROUP NAME"
+        self.group_name = "GROUP NAME 0001"
         self.row_no = 1
         self.driver.get(self.base_url + "/login")
         time.sleep(5)

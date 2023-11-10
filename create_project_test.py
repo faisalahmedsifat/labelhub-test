@@ -153,7 +153,7 @@ class MySeleniumUnitTest(unittest.TestCase):
                             f"//*[@id=\"root\"]/section/main/div[2]/div[2]/section/div[2]/div[2]/div/table/tbody/tr[{self.row_no}]/td[2]/span").text
         delete_button.click()
 
-        Click "Delete" icon
+        # Click "Delete" icon
 
         confirmation_button = self.driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[3]/button[1]")
         confirmation_button.click()
