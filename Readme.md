@@ -7,11 +7,20 @@
         
 ```
 ## `annotator_test.py`
-### `test_annotation_without_selecting_any_ner_values`
+### `test_annotation_submission_without_selection`
 ```
         This function tests the annotation process without selecting any NER values.
         It logs in to the website, selects a project, starts the annotation process, and submits the annotation without selecting any NER values.
         The test case passes if the annotation field is present and the submit button is clicked.
+        
+```
+## `annotator_test.py`
+### `test_annotation_skip`
+```
+        This method tests the functionality of the "Skip" button in the annotation page.
+        It logs in to the LabelHub website, navigates to the project page, selects a project,
+        and clicks on the "Start" button to start annotating. It then checks if the annotation field
+        is present and clicks on the "Skip" button. Finally, it checks if the annotation field is no longer present.
         
 ```
 ## `boundary_value_test.py`
@@ -46,12 +55,6 @@
         clicking the "Create Project" button, filling out the project name and description, selecting the "NER" annotation
         type, selecting tags for NER, and clicking the "Create" button. Finally, it checks if the project was created
         successfully by verifying that the project name at the top of the "Projects" page matches the expected project name.
-        
-```
-## `create_project_test.py`
-### `test_delete_project`
-```
-        Test case to verify that a project can be deleted successfully.
         
 ```
 ## `create_project_test.py`
@@ -236,5 +239,32 @@
 
         Returns:
         None
+        
+```
+## `validator_test.py`
+### `test_validation_successful`
+```
+        Tests if the validation is successful by performing the following steps:
+        1. Logs in to the website using the provided credentials.
+        2. Clicks on the projects button.
+        3. Finds the project with the given name.
+        4. Clicks on the start button for the project.
+        5. Tries to click on the like button and fails if it is not found.
+        
+```
+## `validator_test.py`
+### `test_validation_edit_successful`
+```
+        Test case to validate successful editing of a project in LabelHub.
+        This function logs in to LabelHub, navigates to the projects page, finds the project with the given name,
+        clicks on the edit button, selects a tag, and submits the changes.
+        
+```
+## `validator_test.py`
+### `test_validation_edit_reject_successful`
+```
+        This test function tests the successful rejection of an edited project in LabelHub. 
+        It logs in to the LabelHub account, navigates to the project, edits the project, 
+        rejects the changes, and verifies that the changes were rejected successfully.
         
 ```
