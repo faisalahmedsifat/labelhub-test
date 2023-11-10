@@ -48,6 +48,20 @@
 
         
 ```
+## `boundary_value_test.py`
+### `test_input_length_boundary_values`
+```
+        Test max input length boundary conditions.
+
+        This method tests the max input length boundary conditions, including inputs of length equal to maxlength
+        attribute, inputs that are just above the maxlength, and inputs that are below the maxlength.
+
+        The method uses a dictionary of boundary values, with each key representing a specific test case and each value
+        representing inputs to be tested. For each test case, the method enters the email and into their respective
+        fields on the login page, and clicks the login button. The method then asserts that the resulting page contains
+        an error message indicating that the email and password is invalid.
+        
+```
 ## `create_project_test.py`
 ### `test_create_project_successful`
 ```
@@ -55,6 +69,46 @@
         clicking the "Create Project" button, filling out the project name and description, selecting the "NER" annotation
         type, selecting tags for NER, and clicking the "Create" button. Finally, it checks if the project was created
         successfully by verifying that the project name at the top of the "Projects" page matches the expected project name.
+        
+```
+## `create_project_test.py`
+### `test_upload_data`
+```
+        This method tests the functionality of uploading data to a project in Labelhub.
+        It logs in to the Labelhub account, navigates to the project, selects the file to upload, and uploads it.
+
+        Steps:
+        1. Login to the Labelhub account using the provided credentials.
+        2. Navigate to the project.
+        3. Select the file to upload.
+        4. Upload the file.
+        5. If data is uploaded successfully, the test is passed.
+        
+```
+## `create_project_test.py`
+### `test_create_group`
+```
+        This method tests the creation of a new group in the LabelHub application.
+        It logs in as an admin user, navigates to the projects page, selects a project,
+        creates a new group with a specified name and label type, adds a validator to the group,
+        and saves the changes.
+        
+```
+## `create_project_test.py`
+### `test_delete_project`
+```
+        Test case to verify that a project can be deleted successfully.
+
+        This test case logs in as an admin user, navigates to the "Projects" page,
+        selects a project to delete, confirms the deletion, and verifies that the
+        project is no longer present in the list of projects.
+
+        Steps:
+        1. Log in as an admin user
+        2. Navigate to the "Projects" page
+        3. Select a project to delete
+        4. Confirm the deletion
+        5. Verify that the project is no longer present in the list of projects
         
 ```
 ## `create_project_test.py`
@@ -192,22 +246,6 @@
             Returns:
                 None
             
-```
-## `upload_data_test.py`
-### `test_upload_data`
-```
-        This method tests the functionality of uploading data to a project in Labelhub.
-        It logs in to the Labelhub account, navigates to the project, selects the file to upload, and uploads it.
-        
-```
-## `upload_data_test.py`
-### `test_create_group`
-```
-        This method tests the creation of a new group in the LabelHub application.
-        It logs in as an admin user, navigates to the projects page, selects a project,
-        creates a new group with a specified name and label type, adds a validator to the group,
-        and saves the changes.
-        
 ```
 ## `user_related_tests.py`
 ### `test_user_creation_expected_data`
