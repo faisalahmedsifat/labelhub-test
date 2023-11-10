@@ -5,7 +5,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 import time
 
-class MySeleniumUnitTest(unittest.TestCase):
+class PerformanceTest(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Chrome()
         self.base_url = "http://182.163.99.86"

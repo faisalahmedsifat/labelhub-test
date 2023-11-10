@@ -1,3 +1,19 @@
+## `annotator_test.py`
+### `test_annotation_successful`
+```
+        Test if the annotation process is successful by logging in, selecting a project, 
+        annotating a field, and submitting the annotation. The test case passes if the 
+        annotation field is present and the submit button is clicked.
+        
+```
+## `annotator_test.py`
+### `test_annotation_without_selecting_any_ner_values`
+```
+        This function tests the annotation process without selecting any NER values.
+        It logs in to the website, selects a project, starts the annotation process, and submits the annotation without selecting any NER values.
+        The test case passes if the annotation field is present and the submit button is clicked.
+        
+```
 ## `boundary_value_test.py`
 ### `test_email_boundary_values`
 ```
@@ -74,6 +90,77 @@
         This method tests the logout feature by first ensuring that the user is logged in, then clicking on the
         expandable button to reveal the logout button. It then clicks on the logout button and ensures that the user is
         redirected to the login page.
+        
+```
+## `login_logout_tests.py`
+### `test_login_unsuccessful_incorrect_username`
+```
+        Test case to verify that login is unsuccessful with incorrect username.
+
+        Steps:
+        1. Navigate to login page.
+        2. Enter incorrect email in email field.
+        3. Enter valid password in password field.
+        4. Click on login button.
+        5. Verify that error message "Incorrect email or password" is displayed.
+
+        
+```
+## `login_logout_tests.py`
+### `test_login_unsuccessful_incorrect_password`
+```
+        Test that login is unsuccessful with an incorrect password.
+
+        Steps:
+        1. Navigate to the login page.
+        2. Enter a valid email address.
+        3. Enter an incorrect password.
+        4. Click the login button.
+        5. Verify that an error message is displayed indicating that the password is incorrect.
+        
+```
+## `login_logout_tests.py`
+### `test_login_unsuccessful_incorrect_credentials`
+```
+        Test case to verify that login is unsuccessful with incorrect credentials.
+
+        Steps:
+        1. Load the login page.
+        2. Enter incorrect email and password.
+        3. Click on the login button.
+        4. Verify that the error message is displayed.
+
+        
+```
+## `login_logout_tests.py`
+### `test_login_successful_after_failed_attempt`
+```
+        Test that login is successful after a failed attempt with incorrect credentials.
+        
+```
+## `login_logout_tests.py`
+### `test_login_unsuccessful_empty_username`
+```
+        Test case to verify that login is unsuccessful when the username field is left empty.
+        
+```
+## `login_logout_tests.py`
+### `test_login_unsuccessful_empty_password`
+```
+        Test case to verify that login is unsuccessful when password field is empty.
+
+        Steps:
+        1. Open the login page.
+        2. Enter the email address.
+        3. Leave the password field empty.
+        4. Click on the login button.
+        5. Verify that an error message is displayed indicating that the password field is required.
+        
+```
+## `login_logout_tests.py`
+### `test_login_unsuccessful_empty_credentials`
+```
+        Test case to verify that login is unsuccessful when empty credentials are provided.
         
 ```
 ## `performance_test.py`
