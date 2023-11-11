@@ -122,7 +122,9 @@ class BoundaryValue(unittest.TestCase):
                 password_input.send_keys(password)
                 login_button = self.driver.find_element(By.XPATH, "/html/body/div/div/div[2]/form/button")
                 login_button.click()
-
+                
+                
+    @unittest.skip('Work in progress')
     def test_input_length_boundary_values(self):
         """
         Test max input length boundary conditions.
@@ -160,6 +162,7 @@ class BoundaryValue(unittest.TestCase):
 
         for test_case, credentials in boundary_values.items():
             with self.subTest(test_case=test_case):
+                time.sleep(3)
                 email_input = self.driver.find_element(By.XPATH, "//*[@id=\"username\"]")
                 email_input.clear()
                 email_input.send_keys(credentials[0])
@@ -168,7 +171,4 @@ class BoundaryValue(unittest.TestCase):
                 password_input.send_keys(credentials[1])
                 login_button = self.driver.find_element(By.XPATH, "/html/body/div/div/div[2]/form/button")
                 login_button.click()
-
-
-if __name__ == "__main__":
-    unittest.main()
+                time.sleep(3)

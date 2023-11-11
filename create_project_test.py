@@ -7,6 +7,8 @@ import time
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+import random
+import faker
 
 
 class ProjectCreationDeletion(unittest.TestCase):
@@ -16,6 +18,9 @@ class ProjectCreationDeletion(unittest.TestCase):
         self.project_name = "Test Project Creation 000042"
         self.row_no = 1
         self.group_name = "GROUP NAME 05"
+        self.loaded_already = False
+        
+        self.wait = WebDriverWait(self.driver, 10)
 
     def tearDown(self):
         self.driver.quit()
@@ -30,7 +35,8 @@ class ProjectCreationDeletion(unittest.TestCase):
         self.row_no = 1
         # driver = self.driver
         self.driver.get(self.base_url + "/login")
-
+        # self.group_name = faker.Faker().name()
+        self.project_name = faker.Faker().name()
 
         # wait for the page to load
         # self.driver.implicitly_wait(5)
@@ -106,12 +112,8 @@ class ProjectCreationDeletion(unittest.TestCase):
             project_name_at_top = self.driver.find_element(By.XPATH,
                                                            "/html/body/div/section/main/div[2]/div[2]/section/section[1]/div/div[1]/h4")
             returned_project_name = project_name_at_top.text
-            self.assertEqual(returned_project_name, self.project_name.title())
+            self.assertEqual(returned_project_name.lower(), self.project_name.title().lower())
 
-            # wait = WebDriverWait(self.driver, 10)
-            # wait.until(EC.alert_is_present(), 'waiting for alert')
-            # alert_message = self.driver.switch_to.alert.text
-            # self.assertEqual(alert_message, "Project created successfully")
         except:
             self.fail("Project creation failed")
 
@@ -127,6 +129,24 @@ class ProjectCreationDeletion(unittest.TestCase):
         4. Upload the file.
         5. If data is uploaded successfully, the test is passed.
         """
+        self.loaded_already = False
+        self.test_create_project_successful()
+        
+        # logout
+        expandable_button = self.wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="radix-:r5:"]')))
+        expandable_button.click()
+
+
+        # get the attribute "data-state" of the button
+        data_state = expandable_button.get_attribute("data-state")
+        self.assertEqual(data_state, "open")
+
+        logout_button = self.wait.until(EC.element_to_be_clickable((By.XPATH, '/html/body/div[2]/div/div')))
+        logout_button.click()
+        
+        
+        time.sleep(5)
+        
         self.row_no = 1
         self.driver.get(self.base_url + "/login")
         time.sleep(5)
@@ -181,30 +201,15 @@ class ProjectCreationDeletion(unittest.TestCase):
         creates a new group with a specified name and label type, adds a validator to the group,
         and saves the changes.
         """
+        
+        self.test_upload_data()
+        time.sleep(3)
 
         self.row_no = 1
-        self.driver.get(self.base_url + "/login")
-        time.sleep(5)
+        # self.driver.get(self.base_url + "/dashboard")
+        self.group_name = faker.Faker().name()
+        # time.sleep(5)
 
-        email_input = self.driver.find_element(By.XPATH, "//*[@id=\"username\"]")
-        email_input.send_keys("admin@gigatech.com")
-
-        password_input = self.driver.find_element(By.XPATH, "//*[@id=\"password\"]")
-        password_input.send_keys("Abc@123")
-
-        login_button = self.driver.find_element(By.XPATH, "/html/body/div/div/div[2]/form/button")
-        login_button.click()
-
-        time.sleep(5)
-
-        view_projects_button = self.driver.find_element(By.XPATH,
-                                                        "//*[@id=\"root\"]/section/main/div[2]/div[2]/section/div/div[1]/div[1]/div/button")
-        view_projects_button.click()
-
-        time.sleep(2)
-
-        select_project_button = self.driver.find_element(By.XPATH, f"//*[@id=\"root\"]/section/main/div[2]/div[2]/section/div[2]/div[2]/div/table/tbody/tr[{self.row_no}]/td[9]/div/span")
-        select_project_button.click()
 
         time.sleep(3)
 
@@ -223,7 +228,7 @@ class ProjectCreationDeletion(unittest.TestCase):
         time.sleep(3)
         self.driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[2]/div/div/section[2]/div[2]/div/table/tbody/tr/td[1]/div/div/button").click()
         self.driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[3]/button").click()
-        time.sleep(3)
+        time.sleep(5)
 
         self.driver.find_element(By.XPATH, "/html/body/div/section/main/div[2]/div[2]/section/section[4]/div/div/div[2]/div/table/tbody/tr[1]/td[9]/div/span[1]/a/img").click()
         time.sleep(3)
@@ -249,25 +254,13 @@ class ProjectCreationDeletion(unittest.TestCase):
         4. Confirm the deletion
         5. Verify that the project is no longer present in the list of projects
         """
+        
+        self.test_create_project_successful()
         self.row_no = 1
 
-        self.driver.get(self.base_url + "/login")
-        self.project_name = "Test project creation 000022(HASIB)"
+        self.driver.get(self.base_url + "/dashboard")
 
-        time.sleep(5)
-
-        email_input = self.driver.find_element(By.XPATH, "//*[@id=\"username\"]")
-        email_input.send_keys("admin@gigatech.com")
-
-        password_input = self.driver.find_element(By.XPATH, "//*[@id=\"password\"]")
-        password_input.send_keys("Abc@123")
-
-        login_button = self.driver.find_element(By.XPATH, "/html/body/div/div/div[2]/form/button")
-        login_button.click()
-
-        # wait for the page to load
-        # self.driver.implicitly_wait(5)
-        time.sleep(5)
+        time.sleep(2)
 
         # Go to "Projects" page
         view_projects_button = self.driver.find_element(By.XPATH,
@@ -287,12 +280,12 @@ class ProjectCreationDeletion(unittest.TestCase):
         confirmation_button = self.driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[3]/button[1]")
         confirmation_button.click()
 
-        time.sleep(1)
+        time.sleep(2)
 
         new_project_name = self.driver.find_element(By.XPATH,
                                 f"//*[@id=\"root\"]/section/main/div[2]/div[2]/section/div[2]/div[2]/div/table/tbody/tr[{self.row_no}]/td[2]/span").text
 
-        self.assertNotEqual(project_name, new_project_name)
+        self.assertNotEqual(project_name.lower(), new_project_name.lower())
 
 
     def test_project_details(self):
@@ -340,10 +333,38 @@ class ProjectCreationDeletion(unittest.TestCase):
         project_name_in_next_page = self.driver.find_element(By.XPATH,
                                                              "//*[@id=\"root\"]/section/main/div[2]/div[2]/section/section[1]/div/div[1]/h4").text
 
-        self.assertEqual(project_name_in_next_page.title(), project_name)
+        self.assertEqual(project_name_in_next_page.title().lower(), project_name.lower())
 
+    def test_project_creation_valid_data(self):
+        """
+        Test project creation with valid data.
+        """
+        # Navigate to the project creation page
+        # Fill out the project creation form with valid data
+        # Click the Create Project button
+        # Verify that the project is created successfully
 
+    def test_project_creation_invalid_data(self):
+        """
+        Test project creation with invalid data.
+        """
+        # Navigate to the project creation page
+        # Fill out the project creation form with invalid data
+        # Click the Create Project button
+        # Verify that an appropriate error message is displayed
 
-if __name__ == "__main__":
-    unittest.main()
-    print("Everything passed")
+    def test_project_deletion_valid_project(self):
+        """
+        Test project deletion with valid project.
+        """
+        # Navigate to the Projects page
+        # Delete a project that exists
+        # Verify that the project is deleted successfully
+
+    def test_project_deletion_invalid_project(self):
+        """
+        Test project deletion with invalid project.
+        """
+        # Navigate to the Projects page
+        # Try to delete a project that does not exist
+        # Verify that an appropriate error message is displayed

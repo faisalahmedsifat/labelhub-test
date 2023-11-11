@@ -43,6 +43,58 @@ class LoginLogoutTests(unittest.TestCase):
             self.assertEqual(h1.text, "Dashboard")
         except:
             self.fail("Login failed")
+            
+    def test_login_annotator_successful(self):
+        """
+        Test case to verify successful login functionality.
+        """
+        driver = self.driver
+        driver.get(self.base_url + "/login")
+        
+        # wait for the page to load
+        driver.implicitly_wait(10)
+
+        email_input = driver.find_element(By.XPATH, "//*[@id=\"username\"]")
+        email_input.send_keys("faisalahmedann@example.com")
+
+        password_input = driver.find_element(By.XPATH, "//*[@id=\"password\"]")
+        password_input.send_keys("Sifat@123")
+
+        login_button = driver.find_element(By.XPATH, "/html/body/div/div/div[2]/form/button")
+        login_button.click()
+
+        # get the text in h1 tag
+        try:
+            h1 = driver.find_element(By.TAG_NAME, "h1")
+            self.assertEqual(h1.text, "Dashboard")
+        except:
+            self.fail("Login failed: No access to annotator")
+            
+    def test_login_validator_successful(self):
+        """
+        Test case to verify successful login functionality.
+        """
+        driver = self.driver
+        driver.get(self.base_url + "/login")
+        
+        # wait for the page to load
+        driver.implicitly_wait(10)
+
+        email_input = driver.find_element(By.XPATH, "//*[@id=\"username\"]")
+        email_input.send_keys("faisalahmedval@example.com")
+
+        password_input = driver.find_element(By.XPATH, "//*[@id=\"password\"]")
+        password_input.send_keys("Sifat@123")
+
+        login_button = driver.find_element(By.XPATH, "/html/body/div/div/div[2]/form/button")
+        login_button.click()
+
+        # get the text in h1 tag
+        try:
+            h1 = driver.find_element(By.TAG_NAME, "h1")
+            self.assertEqual(h1.text, "Dashboard")
+        except:
+            self.fail("Login failed: No access to validator")
 
 
     '''@author-Hasib'''
@@ -317,9 +369,3 @@ class LoginLogoutTests(unittest.TestCase):
             self.assertIn("Required", pass_error_message.text)
         except:
             self.fail("Error messages not found")
-
-    
-if __name__ == "__main__":
-    unittest.main()
-    print("Everything passed")
-    
