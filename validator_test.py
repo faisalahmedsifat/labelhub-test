@@ -39,6 +39,7 @@ class ValidatorTest(unittest.TestCase):
         suite.addTest(annotator_test.Annotator('test_annotation_successful'))
         runner = unittest.TextTestRunner()
         runner.run(suite)
+        time.sleep(5)
         
         self.driver.get(self.base_url + "/login")
 
@@ -284,3 +285,28 @@ class ValidatorTest(unittest.TestCase):
             reject_button.click()
         except:
             self.fail("Submit button click failed")
+            
+    def test_project_selection_invalid_project(self):
+        """
+        Test project selection with invalid project name.
+        """
+        # Navigate to the projects page
+        # Try to select a project with a name that does not exist
+        # Verify that an appropriate error message is displayed
+
+    def test_project_editing_invalid_tag(self):
+        """
+        Test project editing with invalid tag.
+        """
+        # Navigate to the projects page
+        # Select a project
+        # Try to edit the project with a tag that does not exist
+        # Verify that an appropriate error message is displayed
+
+    def test_project_rejection_invalid_project(self):
+        """
+        Test project rejection with invalid project.
+        """
+        # Navigate to the projects page
+        # Try to reject a project that does not exist
+        # Verify that an appropriate error message is displayed

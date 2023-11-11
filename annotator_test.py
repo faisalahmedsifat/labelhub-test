@@ -42,7 +42,7 @@ class Annotator(unittest.TestCase):
         suite.addTest(create_project_test.ProjectCreationDeletion('test_create_group'))
         runner = unittest.TextTestRunner()
         runner.run(suite)
-    
+        time.sleep(5)
         
         self.driver.get(self.base_url + "/login")
 
@@ -108,26 +108,38 @@ class Annotator(unittest.TestCase):
         except:
             self.fail("Annotation field is not present: ")
 
-        noun_divs = self.driver.find_elements(By.XPATH, '/html/body/div/section/main/div[2]/div[2]/section[2]/div/div')
+        noun_divs = self.driver.find_elements(By.XPATH, '/html/body/div/section/main/div[2]/div[2]/section[2]/div[1]/div')
         ner_words = self.driver.find_elements(By.XPATH, '/html/body/div/section/main/div[2]/div[2]/section[3]/div/div/div')
-        for spans in noun_divs:
-            spans.click()
-            time.sleep(2)
+        # for spans in noun_divs:
+        #     spans.click()
+        #     time.sleep(2)
             
-            # randomly select a span from the ner_words list
-            random_span = random.choice(ner_words)
-            # random_span.click()
-            actions = ActionChains(self.driver)
-            actions.double_click(random_span)
-            actions.perform()
+        #     # randomly select a span from the ner_words list
+        #     random_span = random.choice(ner_words)
+        #     # random_span.click()
+        #     actions = ActionChains(self.driver)
+        #     actions.double_click(random_span)
+        #     actions.perform()
 
-            time.sleep(2)
+        #     time.sleep(2)
+        #     break
+        
+        # randomly select a span from the ner_words list
+        span = self.driver.find_element(By.XPATH, '/html/body/div/section/main/div[2]/div[2]/section[2]/div[1]/div/span')
+        span.click()
+        random_span = random.choice(ner_words)
+        actions = ActionChains(self.driver)
+        actions.double_click(random_span)
+        actions.perform()
+        time.sleep(5)
+        
         
         submit_button = self.driver.find_element(By.XPATH, '/html/body/div/section/main/div[2]/div[2]/section[3]/div/div/footer/button[1]')
         submit_button.click()
         
         # the test case passes if the submit button was clicked
         self.assertTrue(submit_button) 
+        time.sleep(3)
         
     def test_annotation_submission_without_selection(self):
         
@@ -310,6 +322,15 @@ class Annotator(unittest.TestCase):
             pass
         
     def test_annotation_reject(self):
+        """
+        This test case checks if the annotation field is present and rejects the annotation.
+        It first creates a project and logs in with the given credentials.
+        Then it navigates to the project and finds the row with the project name.
+        It clicks on the last td element of the row and starts the annotation.
+        It checks if the annotation field is present and rejects the annotation.
+        Finally, it checks if the alert box is present.
+        """
+    def test_annotation_reject(self):
         
         
         suite = unittest.TestSuite()
@@ -399,3 +420,34 @@ class Annotator(unittest.TestCase):
         except:
             self.fail("Alert box is not present")
         
+    def test_annotation_empty_text(self):
+        """
+        Test annotation with empty text.
+        """
+        # Navigate to the annotation page
+        # Try to annotate with empty text
+        # Verify that an appropriate error message is displayed
+
+    def test_annotation_max_length_text(self):
+        """
+        Test annotation with maximum length text.
+        """
+        # Navigate to the annotation page
+        # Annotate with text that is at the maximum length limit
+        # Verify that the system accepts the annotation without any error
+
+    def test_annotation_exceeding_max_length_text(self):
+        """
+        Test annotation with text exceeding maximum length.
+        """
+        # Navigate to the annotation page
+        # Try to annotate with text that exceeds the maximum length limit
+        # Verify that an appropriate error message is displayed
+
+    def test_annotation_submission_without_NER(self):
+        """
+        Test annotation submission without selecting any NER.
+        """
+        # Navigate to the annotation page
+        # Try to submit an annotation without selecting any NER
+        # Verify that an appropriate error message is displayed

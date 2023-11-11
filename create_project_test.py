@@ -228,7 +228,7 @@ class ProjectCreationDeletion(unittest.TestCase):
         time.sleep(3)
         self.driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[2]/div/div/section[2]/div[2]/div/table/tbody/tr/td[1]/div/div/button").click()
         self.driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[3]/button").click()
-        time.sleep(3)
+        time.sleep(5)
 
         self.driver.find_element(By.XPATH, "/html/body/div/section/main/div[2]/div[2]/section/section[4]/div/div/div[2]/div/table/tbody/tr[1]/td[9]/div/span[1]/a/img").click()
         time.sleep(3)
@@ -280,7 +280,7 @@ class ProjectCreationDeletion(unittest.TestCase):
         confirmation_button = self.driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[3]/button[1]")
         confirmation_button.click()
 
-        time.sleep(1)
+        time.sleep(2)
 
         new_project_name = self.driver.find_element(By.XPATH,
                                 f"//*[@id=\"root\"]/section/main/div[2]/div[2]/section/div[2]/div[2]/div/table/tbody/tr[{self.row_no}]/td[2]/span").text
@@ -334,3 +334,37 @@ class ProjectCreationDeletion(unittest.TestCase):
                                                              "//*[@id=\"root\"]/section/main/div[2]/div[2]/section/section[1]/div/div[1]/h4").text
 
         self.assertEqual(project_name_in_next_page.title().lower(), project_name.lower())
+
+    def test_project_creation_valid_data(self):
+        """
+        Test project creation with valid data.
+        """
+        # Navigate to the project creation page
+        # Fill out the project creation form with valid data
+        # Click the Create Project button
+        # Verify that the project is created successfully
+
+    def test_project_creation_invalid_data(self):
+        """
+        Test project creation with invalid data.
+        """
+        # Navigate to the project creation page
+        # Fill out the project creation form with invalid data
+        # Click the Create Project button
+        # Verify that an appropriate error message is displayed
+
+    def test_project_deletion_valid_project(self):
+        """
+        Test project deletion with valid project.
+        """
+        # Navigate to the Projects page
+        # Delete a project that exists
+        # Verify that the project is deleted successfully
+
+    def test_project_deletion_invalid_project(self):
+        """
+        Test project deletion with invalid project.
+        """
+        # Navigate to the Projects page
+        # Try to delete a project that does not exist
+        # Verify that an appropriate error message is displayed

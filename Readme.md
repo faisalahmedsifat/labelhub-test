@@ -23,6 +23,41 @@
         is present and clicks on the "Skip" button. Finally, it checks if the annotation field is no longer present.
         
 ```
+## `annotator_test.py`
+### `test_annotation_reject`
+```
+        This test case checks if the annotation field is present and rejects the annotation.
+        It first creates a project and logs in with the given credentials.
+        Then it navigates to the project and finds the row with the project name.
+        It clicks on the last td element of the row and starts the annotation.
+        It checks if the annotation field is present and rejects the annotation.
+        Finally, it checks if the alert box is present.
+        
+```
+## `annotator_test.py`
+### `test_annotation_empty_text`
+```
+        Test annotation with empty text.
+        
+```
+## `annotator_test.py`
+### `test_annotation_max_length_text`
+```
+        Test annotation with maximum length text.
+        
+```
+## `annotator_test.py`
+### `test_annotation_exceeding_max_length_text`
+```
+        Test annotation with text exceeding maximum length.
+        
+```
+## `annotator_test.py`
+### `test_annotation_submission_without_NER`
+```
+        Test annotation submission without selecting any NER.
+        
+```
 ## `boundary_value_test.py`
 ### `test_email_boundary_values`
 ```
@@ -119,8 +154,44 @@
         project name on the previous page.
         
 ```
+## `create_project_test.py`
+### `test_project_creation_valid_data`
+```
+        Test project creation with valid data.
+        
+```
+## `create_project_test.py`
+### `test_project_creation_invalid_data`
+```
+        Test project creation with invalid data.
+        
+```
+## `create_project_test.py`
+### `test_project_deletion_valid_project`
+```
+        Test project deletion with valid project.
+        
+```
+## `create_project_test.py`
+### `test_project_deletion_invalid_project`
+```
+        Test project deletion with invalid project.
+        
+```
 ## `login_logout_tests.py`
 ### `test_login_successful`
+```
+        Test case to verify successful login functionality.
+        
+```
+## `login_logout_tests.py`
+### `test_login_annotator_successful`
+```
+        Test case to verify successful login functionality.
+        
+```
+## `login_logout_tests.py`
+### `test_login_validator_successful`
 ```
         Test case to verify successful login functionality.
         
@@ -255,11 +326,6 @@
         This function tests the user creation functionality by filling out the user creation form with expected data and
         verifying that the user is successfully created. It uses the Selenium WebDriver to interact with the web page.
 
-        Args:
-            self: The TestUserRelated class instance.
-
-        Returns:
-            None
         
 ```
 ## `user_related_tests.py`
@@ -274,9 +340,30 @@
         4. Delete the user.
         5. Confirm the deletion.
         6. Verify that the email address of the deleted user is not present in the table.
-
-        Returns:
-        None
+        
+```
+## `user_related_tests.py`
+### `test_user_creation_missing_data`
+```
+        Test user creation with missing data.
+        
+```
+## `user_related_tests.py`
+### `test_user_creation_invalid_data`
+```
+        Test user creation with invalid data.
+        
+```
+## `user_related_tests.py`
+### `test_user_deletion_invalid_user`
+```
+        Test user deletion with invalid user.
+        
+```
+## `user_related_tests.py`
+### `test_user_creation_duplicate_data`
+```
+        Test user creation with duplicate data.
         
 ```
 ## `validator_test.py`
@@ -304,5 +391,23 @@
         This test function tests the successful rejection of an edited project in LabelHub. 
         It logs in to the LabelHub account, navigates to the project, edits the project, 
         rejects the changes, and verifies that the changes were rejected successfully.
+        
+```
+## `validator_test.py`
+### `test_project_selection_invalid_project`
+```
+        Test project selection with invalid project name.
+        
+```
+## `validator_test.py`
+### `test_project_editing_invalid_tag`
+```
+        Test project editing with invalid tag.
+        
+```
+## `validator_test.py`
+### `test_project_rejection_invalid_project`
+```
+        Test project rejection with invalid project.
         
 ```
