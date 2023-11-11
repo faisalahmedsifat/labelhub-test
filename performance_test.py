@@ -70,8 +70,3 @@ class PerformanceTest(unittest.TestCase):
             self.assertLess(response_time, 2, "Login action response time should be less than 2 seconds")
 
 
-
-if __name__ == "__main__":
-    unittest.main()
-    print("Everything passed")
-    

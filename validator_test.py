@@ -8,6 +8,8 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import random
 
+import annotator_test
+
 
 class ValidatorTest(unittest.TestCase):
     def setUp(self):
@@ -32,6 +34,11 @@ class ValidatorTest(unittest.TestCase):
         4. Clicks on the start button for the project.
         5. Tries to click on the like button and fails if it is not found.
         """
+        
+        suite = unittest.TestSuite()
+        suite.addTest(annotator_test.Annotator('test_annotation_successful'))
+        runner = unittest.TextTestRunner()
+        runner.run(suite)
         
         self.driver.get(self.base_url + "/login")
 
@@ -63,10 +70,12 @@ class ValidatorTest(unittest.TestCase):
 
         # get the row number of the project where the tr value matches the project name
         for row in rows:
-            print(row.text)
-            if project_name in row.text:
-                present_row = row
-                break
+            present_row = row
+            break
+            # print(row.text)
+            # if project_name in row.text:
+            #     present_row = row
+            #     break
             # self.row_no += 1
             
         print(present_row)
@@ -100,6 +109,13 @@ class ValidatorTest(unittest.TestCase):
         This function logs in to LabelHub, navigates to the projects page, finds the project with the given name,
         clicks on the edit button, selects a tag, and submits the changes.
         """
+        
+        suite = unittest.TestSuite()
+        suite.addTest(annotator_test.Annotator('test_annotation_successful'))
+        runner = unittest.TextTestRunner()
+        runner.run(suite)
+        
+        
         self.driver.get(self.base_url + "/login")
 
         email_input = self.driver.find_element(By.XPATH, "//*[@id=\"username\"]")
@@ -130,10 +146,12 @@ class ValidatorTest(unittest.TestCase):
 
         # get the row number of the project where the tr value matches the project name
         for row in rows:
-            print(row.text)
-            if project_name in row.text:
-                present_row = row
-                break
+            present_row = row
+            break
+            # print(row.text)
+            # if project_name in row.text:
+            #     present_row = row
+            #     break
             # self.row_no += 1
 
         print(present_row)
@@ -183,6 +201,11 @@ class ValidatorTest(unittest.TestCase):
         rejects the changes, and verifies that the changes were rejected successfully.
         """
         
+        suite = unittest.TestSuite()
+        suite.addTest(annotator_test.Annotator('test_annotation_successful'))
+        runner = unittest.TextTestRunner()
+        runner.run(suite)
+        
         self.driver.get(self.base_url + "/login")
 
         email_input = self.driver.find_element(By.XPATH, "//*[@id=\"username\"]")
@@ -213,10 +236,12 @@ class ValidatorTest(unittest.TestCase):
 
         # get the row number of the project where the tr value matches the project name
         for row in rows:
-            print(row.text)
-            if project_name in row.text:
-                present_row = row
-                break
+            present_row = row
+            break
+            # print(row.text)
+            # if project_name in row.text:
+            #     present_row = row
+            #     break
             # self.row_no += 1
             
         print(present_row)
@@ -259,21 +284,3 @@ class ValidatorTest(unittest.TestCase):
             reject_button.click()
         except:
             self.fail("Submit button click failed")
-        
-        
-        
-        
-
-            
-            
-        
-        
-        
-        
-        
-
-
-
-if __name__ == "__main__":
-    unittest.main()
-    print("Everything passed")

@@ -168,7 +168,3 @@ class BoundaryValue(unittest.TestCase):
                 password_input.send_keys(credentials[1])
                 login_button = self.driver.find_element(By.XPATH, "/html/body/div/div/div[2]/form/button")
                 login_button.click()
-
-
-if __name__ == "__main__":
-    unittest.main()
