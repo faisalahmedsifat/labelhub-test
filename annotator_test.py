@@ -86,7 +86,8 @@ class Annotator(unittest.TestCase):
             
         print(present_row)
         
-        # time.sleep(5)
+        
+        time.sleep(5)
         # get the last td element in the row
         tds = present_row.find_elements(By.TAG_NAME, "td")
         # print(last_td)
@@ -99,7 +100,7 @@ class Annotator(unittest.TestCase):
         
         start_button = self.driver.find_element(By.XPATH, '/html/body/div/section/main/div[2]/div[2]/section/section[4]/div/div/div[2]/div/table/tbody/tr/td[9]/div/a')
         start_button.click()
-        time.sleep(2)
+        time.sleep(5)
         try:
             ner_field = self.driver.find_element(By.XPATH, '/html/body/div/section/main/div[2]/div[2]/section[3]/div/div/div')
             
@@ -110,19 +111,7 @@ class Annotator(unittest.TestCase):
 
         noun_divs = self.driver.find_elements(By.XPATH, '/html/body/div/section/main/div[2]/div[2]/section[2]/div[1]/div')
         ner_words = self.driver.find_elements(By.XPATH, '/html/body/div/section/main/div[2]/div[2]/section[3]/div/div/div')
-        # for spans in noun_divs:
-        #     spans.click()
-        #     time.sleep(2)
-            
-        #     # randomly select a span from the ner_words list
-        #     random_span = random.choice(ner_words)
-        #     # random_span.click()
-        #     actions = ActionChains(self.driver)
-        #     actions.double_click(random_span)
-        #     actions.perform()
 
-        #     time.sleep(2)
-        #     break
         
         # randomly select a span from the ner_words list
         span = self.driver.find_element(By.XPATH, '/html/body/div/section/main/div[2]/div[2]/section[2]/div[1]/div/span')
@@ -330,8 +319,6 @@ class Annotator(unittest.TestCase):
         It checks if the annotation field is present and rejects the annotation.
         Finally, it checks if the alert box is present.
         """
-    def test_annotation_reject(self):
-        
         
         suite = unittest.TestSuite()
         suite.addTest(create_project_test.ProjectCreationDeletion('test_create_group'))
@@ -420,34 +407,3 @@ class Annotator(unittest.TestCase):
         except:
             self.fail("Alert box is not present")
         
-    def test_annotation_empty_text(self):
-        """
-        Test annotation with empty text.
-        """
-        # Navigate to the annotation page
-        # Try to annotate with empty text
-        # Verify that an appropriate error message is displayed
-
-    def test_annotation_max_length_text(self):
-        """
-        Test annotation with maximum length text.
-        """
-        # Navigate to the annotation page
-        # Annotate with text that is at the maximum length limit
-        # Verify that the system accepts the annotation without any error
-
-    def test_annotation_exceeding_max_length_text(self):
-        """
-        Test annotation with text exceeding maximum length.
-        """
-        # Navigate to the annotation page
-        # Try to annotate with text that exceeds the maximum length limit
-        # Verify that an appropriate error message is displayed
-
-    def test_annotation_submission_without_NER(self):
-        """
-        Test annotation submission without selecting any NER.
-        """
-        # Navigate to the annotation page
-        # Try to submit an annotation without selecting any NER
-        # Verify that an appropriate error message is displayed

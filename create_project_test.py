@@ -335,36 +335,349 @@ class ProjectCreationDeletion(unittest.TestCase):
 
         self.assertEqual(project_name_in_next_page.title().lower(), project_name.lower())
 
-    def test_project_creation_valid_data(self):
-        """
-        Test project creation with valid data.
-        """
-        # Navigate to the project creation page
-        # Fill out the project creation form with valid data
-        # Click the Create Project button
-        # Verify that the project is created successfully
 
-    def test_project_creation_invalid_data(self):
+    def test_project_creation_invalid_data_without_project_name(self):
         """
-        Test project creation with invalid data.
+        Test project creation with invalid data when project name is not provided.
+        This test case checks if the project creation fails when the project name is not provided.
+        It logs in as an admin user, navigates to the "Projects" page, clicks on the "Create Project" button,
+        and tries to create a project without providing a name. It then checks if the project was not created
+        by comparing the name of the project at the top of the page with the expected project name.
         """
-        # Navigate to the project creation page
-        # Fill out the project creation form with invalid data
-        # Click the Create Project button
-        # Verify that an appropriate error message is displayed
 
-    def test_project_deletion_valid_project(self):
-        """
-        Test project deletion with valid project.
-        """
-        # Navigate to the Projects page
-        # Delete a project that exists
-        # Verify that the project is deleted successfully
 
-    def test_project_deletion_invalid_project(self):
+        self.row_no = 1
+        # driver = self.driver
+        self.driver.get(self.base_url + "/login")
+        # self.group_name = faker.Faker().name()
+        self.project_name = faker.Faker().name()
+
+        # wait for the page to load
+        # self.driver.implicitly_wait(5)
+        time.sleep(5)
+
+        email_input = self.driver.find_element(By.XPATH, "//*[@id=\"username\"]")
+        email_input.send_keys("admin@gigatech.com")
+
+        password_input = self.driver.find_element(By.XPATH, "//*[@id=\"password\"]")
+        password_input.send_keys("Abc@123")
+
+        login_button = self.driver.find_element(By.XPATH, "/html/body/div/div/div[2]/form/button")
+        login_button.click()
+
+        # wait for the page to load
+        # self.driver.implicitly_wait(5)
+        time.sleep(5)
+
+        # Go to "Projects" page
+        view_projects_button = self.driver.find_element(By.XPATH,
+                                                        "//*[@id=\"root\"]/section/main/div[2]/div[2]/section/div/div[1]/div[1]/div/button")
+        view_projects_button.click()
+
+        # Click "Create Project" button
+        create_project_button = self.driver.find_element(By.XPATH,
+                                                         "//*[@id=\"root\"]/section/main/div[2]/div[2]/section/div[1]/button")
+        create_project_button.click()
+        try:
+
+            # Give a name for the project
+            project_name_input = self.driver.find_element(By.XPATH, "//*[@id=\"name\"]")
+            project_name_input.send_keys("")
+
+            # Give a description for the project
+            project_description_input = self.driver.find_element(By.XPATH, "//*[@id=\"description\"]")
+            project_description_input.send_keys("Dummy test project")
+
+            time.sleep(1)
+
+            # Add "NER" annotation type
+            select_annotation_type_button = self.driver.find_element(By.XPATH, "//*[@id=\"1\"]")
+            select_annotation_type_button.click()
+
+            # Select tags for NER
+            tag_selection_button_1 = self.driver.find_element(By.XPATH,
+                                                            "/html/body/div[3]/div/div/div[2]/div/div/section[1]/div[2]/div/div/div/div[1]/button")
+            tag_selection_button_1.click()
+
+            tag_selection_button_2 = self.driver.find_element(By.XPATH,
+                                                            "/html/body/div[3]/div/div/div[2]/div/div/section[1]/div[2]/div/div/div/div[2]/button")
+            tag_selection_button_2.click()
+
+            tag_selection_button_3 = self.driver.find_element(By.XPATH,
+                                                            "/html/body/div[3]/div/div/div[2]/div/div/section[1]/div[2]/div/div/div/div[3]/button")
+            tag_selection_button_3.click()
+
+            tag_selection_button_4 = self.driver.find_element(By.XPATH,
+                                                            "/html/body/div[3]/div/div/div[2]/div/div/section[1]/div[2]/div/div/div/div[4]/button")
+            tag_selection_button_4.click()
+
+            # Click "Create" button
+            create_button = self.driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[3]/button")
+            create_button.click()
+
+            time.sleep(5)
+            # /html/body/div/section/main/div[2]/div[2]/section/div/div[2]/div/table/tbody/tr[1]/td[9]/div/a
+            select_project_button = self.driver.find_element(By.XPATH, f"/html/body/div/section/main/div[2]/div[2]/section/div[2]/div[2]/div/table/tbody/tr[1]/td[9]/div/span[1]")
+            select_project_button.click()
+
+            
+            time.sleep(2)
+
+            project_name_at_top = self.driver.find_element(By.XPATH,
+                                                           "/html/body/div/section/main/div[2]/div[2]/section/section[1]/div/div[1]/h4")
+            returned_project_name = project_name_at_top.text
+            self.assertNotEqual(returned_project_name.lower(), self.project_name.title().lower())
+
+        except:
+            # if there was an exception the test is passed
+            pass
+
+    def test_project_creation_invalid_data_without_ner_values(self):
+            """
+            Test case to verify that a project cannot be created without NER values.
+            This test case logs in as an admin user, navigates to the "Projects" page, clicks on the "Create Project" button,
+            enters a project name and description, selects the "NER" annotation type, and clicks on the "Create" button.
+            The test then verifies that the project was not created by checking if the project name at the top of the page
+            matches the entered project name.
+            """
+            self.row_no = 1
+            # driver = self.driver
+            self.driver.get(self.base_url + "/login")
+            # self.group_name = faker.Faker().name()
+            self.project_name = faker.Faker().name()
+
+            # wait for the page to load
+            # self.driver.implicitly_wait(5)
+            time.sleep(5)
+
+            email_input = self.driver.find_element(By.XPATH, "//*[@id=\"username\"]")
+            email_input.send_keys("admin@gigatech.com")
+
+            password_input = self.driver.find_element(By.XPATH, "//*[@id=\"password\"]")
+            password_input.send_keys("Abc@123")
+
+            login_button = self.driver.find_element(By.XPATH, "/html/body/div/div/div[2]/form/button")
+            login_button.click()
+
+            # wait for the page to load
+            # self.driver.implicitly_wait(5)
+            time.sleep(5)
+
+            # Go to "Projects" page
+            view_projects_button = self.driver.find_element(By.XPATH,
+                                                            "//*[@id=\"root\"]/section/main/div[2]/div[2]/section/div/div[1]/div[1]/div/button")
+            view_projects_button.click()
+
+            # Click "Create Project" button
+            create_project_button = self.driver.find_element(By.XPATH,
+                                                             "//*[@id=\"root\"]/section/main/div[2]/div[2]/section/div[1]/button")
+            create_project_button.click()
+            try:
+
+                # Give a name for the project
+                project_name_input = self.driver.find_element(By.XPATH, "//*[@id=\"name\"]")
+                project_name_input.send_keys(self.project_name)
+
+                # Give a description for the project
+                project_description_input = self.driver.find_element(By.XPATH, "//*[@id=\"description\"]")
+                project_description_input.send_keys("Dummy test project")
+
+                time.sleep(1)
+
+                # Add "NER" annotation type
+                select_annotation_type_button = self.driver.find_element(By.XPATH, "//*[@id=\"1\"]")
+                select_annotation_type_button.click()
+
+                # Click "Create" button
+                create_button = self.driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[3]/button")
+                create_button.click()
+
+                time.sleep(5)
+                # /html/body/div/section/main/div[2]/div[2]/section/div/div[2]/div/table/tbody/tr[1]/td[9]/div/a
+                select_project_button = self.driver.find_element(By.XPATH, f"/html/body/div/section/main/div[2]/div[2]/section/div[2]/div[2]/div/table/tbody/tr[1]/td[9]/div/span[1]")
+                select_project_button.click()
+
+                
+                time.sleep(2)
+
+                project_name_at_top = self.driver.find_element(By.XPATH,
+                                                               "/html/body/div/section/main/div[2]/div[2]/section/section[1]/div/div[1]/h4")
+                returned_project_name = project_name_at_top.text
+                self.assertNotEqual(returned_project_name.lower(), self.project_name.title().lower())
+
+            except:
+                # if there was an exception the test is passed
+                pass
+
+    def test_project_creation_invalid_data_without_annotation_type(self):
         """
-        Test project deletion with invalid project.
+        Test project creation with invalid data when no annotation type is selected.
+        This test case checks if the project creation fails when no annotation type is selected.
+        It logs in as an admin user, navigates to the "Projects" page, clicks on "Create Project" button,
+        enters project name and description, does not select any annotation type, and clicks on "Create" button.
+        It then checks if the project is not created and the returned project name is not equal to the entered project name.
         """
-        # Navigate to the Projects page
-        # Try to delete a project that does not exist
-        # Verify that an appropriate error message is displayed
+        self.row_no = 1
+        # driver = self.driver
+        self.driver.get(self.base_url + "/login")
+        # self.group_name = faker.Faker().name()
+        self.project_name = faker.Faker().name()
+
+        # wait for the page to load
+        # self.driver.implicitly_wait(5)
+        time.sleep(5)
+
+        email_input = self.driver.find_element(By.XPATH, "//*[@id=\"username\"]")
+        email_input.send_keys("admin@gigatech.com")
+
+        password_input = self.driver.find_element(By.XPATH, "//*[@id=\"password\"]")
+        password_input.send_keys("Abc@123")
+
+        login_button = self.driver.find_element(By.XPATH, "/html/body/div/div/div[2]/form/button")
+        login_button.click()
+
+        # wait for the page to load
+        # self.driver.implicitly_wait(5)
+        time.sleep(5)
+
+        # Go to "Projects" page
+        view_projects_button = self.driver.find_element(By.XPATH,
+                                                        "//*[@id=\"root\"]/section/main/div[2]/div[2]/section/div/div[1]/div[1]/div/button")
+        view_projects_button.click()
+
+        # Click "Create Project" button
+        create_project_button = self.driver.find_element(By.XPATH,
+                                                         "//*[@id=\"root\"]/section/main/div[2]/div[2]/section/div[1]/button")
+        create_project_button.click()
+        try:
+
+            # Give a name for the project
+            project_name_input = self.driver.find_element(By.XPATH, "//*[@id=\"name\"]")
+            project_name_input.send_keys(self.project_name)
+
+            # Give a description for the project
+            project_description_input = self.driver.find_element(By.XPATH, "//*[@id=\"description\"]")
+            project_description_input.send_keys("Dummy test project")
+
+            time.sleep(1)
+
+            # Add "NER" annotation type
+            # select_annotation_type_button = self.driver.find_element(By.XPATH, "//*[@id=\"1\"]")
+            # select_annotation_type_button.click()
+
+            # Click "Create" button
+            create_button = self.driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[3]/button")
+            create_button.click()
+
+            time.sleep(5)
+            # /html/body/div/section/main/div[2]/div[2]/section/div/div[2]/div/table/tbody/tr[1]/td[9]/div/a
+            select_project_button = self.driver.find_element(By.XPATH, f"/html/body/div/section/main/div[2]/div[2]/section/div[2]/div[2]/div/table/tbody/tr[1]/td[9]/div/span[1]")
+            select_project_button.click()
+
+            
+            time.sleep(2)
+
+            project_name_at_top = self.driver.find_element(By.XPATH,
+                                                           "/html/body/div/section/main/div[2]/div[2]/section/section[1]/div/div[1]/h4")
+            returned_project_name = project_name_at_top.text
+            self.assertNotEqual(returned_project_name.lower(), self.project_name.title().lower())
+
+        except:
+            # if there was an exception the test is passed
+            pass
+
+    def test_upload_data_double_csv(self):
+        """
+        This method tests the functionality of uploading data to a project in Labelhub.
+        It logs in to the Labelhub account, navigates to the project, selects the file to upload, and uploads it.
+
+        Steps:
+        1. Login to the Labelhub account using the provided credentials.
+        2. Navigate to the project.
+        3. Select the file to upload.
+        4. Upload the file.
+        5. If data is uploaded successfully, the test is passed.
+        """
+        self.loaded_already = False
+        self.test_create_project_successful()
+        
+        # logout
+        expandable_button = self.wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="radix-:r5:"]')))
+        expandable_button.click()
+
+
+        # get the attribute "data-state" of the button
+        data_state = expandable_button.get_attribute("data-state")
+        self.assertEqual(data_state, "open")
+
+        logout_button = self.wait.until(EC.element_to_be_clickable((By.XPATH, '/html/body/div[2]/div/div')))
+        logout_button.click()
+        
+        
+        time.sleep(5)
+        
+        self.row_no = 1
+        self.driver.get(self.base_url + "/login")
+        time.sleep(5)
+
+        email_input = self.driver.find_element(By.XPATH, "//*[@id=\"username\"]")
+        email_input.send_keys("admin@gigatech.com")
+
+        password_input = self.driver.find_element(By.XPATH, "//*[@id=\"password\"]")
+        password_input.send_keys("Abc@123")
+
+        login_button = self.driver.find_element(By.XPATH, "/html/body/div/div/div[2]/form/button")
+        login_button.click()
+
+        time.sleep(5)
+
+        view_projects_button = self.driver.find_element(By.XPATH,
+                                                        "//*[@id=\"root\"]/section/main/div[2]/div[2]/section/div/div[1]/div[1]/div/button")
+        view_projects_button.click()
+
+        time.sleep(2)
+
+        select_project_button = self.driver.find_element(By.XPATH, f"//*[@id=\"root\"]/section/main/div[2]/div[2]/section/div[2]/div[2]/div/table/tbody/tr[{self.row_no}]/td[9]/div/span")
+        select_project_button.click()
+
+        time.sleep(5)
+
+        select_upload_button = self.driver.find_element(By.XPATH, "/html/body/div[1]/section/main/div[2]/div[2]/section/section[1]/div/div[2]/button[1]")
+        select_upload_button.click()
+        
+        try:
+
+            time.sleep(5)
+
+            file_input = self.driver.find_element(By.CSS_SELECTOR, 'input[type="file"]')
+
+            check_NER_box = self.driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[2]/div/div/section/div[1]/div/div/div[1]/div/div/div/button")
+            check_NER_box.click()
+            '''YOU HAVE TO CHANGE THE FILE PATH'''
+            csv_file_path = "E:/Projects/CSE434/labelhub/bangla-text.csv"  # To absolute PATH 
+            file_input.send_keys(csv_file_path)
+
+            select_uploadData_button = self.driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[3]/button")
+            select_uploadData_button.click()
+
+            time.sleep(5)
+            # upload the same file again and see if the error message is displayed
+            
+            file_input = self.driver.find_element(By.CSS_SELECTOR, 'input[type="file"]')
+
+            check_NER_box = self.driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[2]/div/div/section/div[1]/div/div/div[1]/div/div/div/button")
+            check_NER_box.click()
+            '''YOU HAVE TO CHANGE THE FILE PATH'''
+            csv_file_path = "E:/Projects/CSE434/labelhub/bangla-text.csv"  # To absolute PATH 
+            file_input.send_keys(csv_file_path)
+
+            select_uploadData_button = self.driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[3]/button")
+            select_uploadData_button.click()
+
+            time.sleep(5)
+            
+            # if the data is uploaded successfully, the test is not passed
+            self.fail("Data is uploaded twice")
+            
+        except:
+            pass

@@ -171,7 +171,7 @@ class ValidatorTest(unittest.TestCase):
         start_button = self.driver.find_element(By.XPATH, '/html/body/div/section/main/div[2]/div[2]/section/section[4]/div/div/div[2]/div/table/tbody/tr/td[9]/div/a')
         start_button.click()
 
-        time.sleep(2)
+        time.sleep(5)
 
         try:
             edit_button = self.driver.find_element(By.XPATH, '/html/body/div[1]/section/main/div[2]/div[2]/section/section[4]/section/div[2]/div/div[1]/div/div[2]')
@@ -286,27 +286,3 @@ class ValidatorTest(unittest.TestCase):
         except:
             self.fail("Submit button click failed")
             
-    def test_project_selection_invalid_project(self):
-        """
-        Test project selection with invalid project name.
-        """
-        # Navigate to the projects page
-        # Try to select a project with a name that does not exist
-        # Verify that an appropriate error message is displayed
-
-    def test_project_editing_invalid_tag(self):
-        """
-        Test project editing with invalid tag.
-        """
-        # Navigate to the projects page
-        # Select a project
-        # Try to edit the project with a tag that does not exist
-        # Verify that an appropriate error message is displayed
-
-    def test_project_rejection_invalid_project(self):
-        """
-        Test project rejection with invalid project.
-        """
-        # Navigate to the projects page
-        # Try to reject a project that does not exist
-        # Verify that an appropriate error message is displayed

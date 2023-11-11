@@ -34,30 +34,6 @@
         Finally, it checks if the alert box is present.
         
 ```
-## `annotator_test.py`
-### `test_annotation_empty_text`
-```
-        Test annotation with empty text.
-        
-```
-## `annotator_test.py`
-### `test_annotation_max_length_text`
-```
-        Test annotation with maximum length text.
-        
-```
-## `annotator_test.py`
-### `test_annotation_exceeding_max_length_text`
-```
-        Test annotation with text exceeding maximum length.
-        
-```
-## `annotator_test.py`
-### `test_annotation_submission_without_NER`
-```
-        Test annotation submission without selecting any NER.
-        
-```
 ## `boundary_value_test.py`
 ### `test_email_boundary_values`
 ```
@@ -155,27 +131,47 @@
         
 ```
 ## `create_project_test.py`
-### `test_project_creation_valid_data`
+### `test_project_creation_invalid_data_without_project_name`
 ```
-        Test project creation with valid data.
+        Test project creation with invalid data when project name is not provided.
+        This test case checks if the project creation fails when the project name is not provided.
+        It logs in as an admin user, navigates to the "Projects" page, clicks on the "Create Project" button,
+        and tries to create a project without providing a name. It then checks if the project was not created
+        by comparing the name of the project at the top of the page with the expected project name.
         
 ```
 ## `create_project_test.py`
-### `test_project_creation_invalid_data`
+### `test_project_creation_invalid_data_without_ner_values`
 ```
-        Test project creation with invalid data.
+            Test case to verify that a project cannot be created without NER values.
+            This test case logs in as an admin user, navigates to the "Projects" page, clicks on the "Create Project" button,
+            enters a project name and description, selects the "NER" annotation type, and clicks on the "Create" button.
+            The test then verifies that the project was not created by checking if the project name at the top of the page
+            matches the entered project name.
+            
+```
+## `create_project_test.py`
+### `test_project_creation_invalid_data_without_annotation_type`
+```
+        Test project creation with invalid data when no annotation type is selected.
+        This test case checks if the project creation fails when no annotation type is selected.
+        It logs in as an admin user, navigates to the "Projects" page, clicks on "Create Project" button,
+        enters project name and description, does not select any annotation type, and clicks on "Create" button.
+        It then checks if the project is not created and the returned project name is not equal to the entered project name.
         
 ```
 ## `create_project_test.py`
-### `test_project_deletion_valid_project`
+### `test_upload_data_double_csv`
 ```
-        Test project deletion with valid project.
-        
-```
-## `create_project_test.py`
-### `test_project_deletion_invalid_project`
-```
-        Test project deletion with invalid project.
+        This method tests the functionality of uploading data to a project in Labelhub.
+        It logs in to the Labelhub account, navigates to the project, selects the file to upload, and uploads it.
+
+        Steps:
+        1. Login to the Labelhub account using the provided credentials.
+        2. Navigate to the project.
+        3. Select the file to upload.
+        4. Upload the file.
+        5. If data is uploaded successfully, the test is passed.
         
 ```
 ## `login_logout_tests.py`
@@ -265,12 +261,23 @@
 ```
         Test that login is successful after a failed attempt with incorrect credentials.
         
+        This test case first attempts to login with incorrect credentials to ensure that the login fails.
+        It then attempts to login again with correct credentials to ensure that the login is successful.
+        
 ```
 ## `login_logout_tests.py`
 ### `test_login_unsuccessful_empty_username`
 ```
-        Test case to verify that login is unsuccessful when the username field is left empty.
-        
+            Test case to verify that login is unsuccessful when the username field is left empty.
+
+            Steps:
+            1. Navigate to the login page
+            2. Find the email input field and leave it empty
+            3. Find the password input field and enter a valid password
+            4. Click on the login button
+            5. Wait for the error message to appear
+            6. Verify that the error message contains the text "Required"
+            
 ```
 ## `login_logout_tests.py`
 ### `test_login_unsuccessful_empty_password`
@@ -288,8 +295,10 @@
 ## `login_logout_tests.py`
 ### `test_login_unsuccessful_empty_credentials`
 ```
-        Test case to verify that login is unsuccessful when empty credentials are provided.
-        
+            Test case to verify that login is unsuccessful when empty credentials are provided.
+            This test case navigates to the login page, enters empty email and password fields, clicks the login button,
+            and verifies that the appropriate error messages are displayed on the page.
+            
 ```
 ## `performance_test.py`
 ### `measure_load_time`
@@ -349,21 +358,25 @@
         
 ```
 ## `user_related_tests.py`
-### `test_user_creation_invalid_data`
-```
-        Test user creation with invalid data.
-        
-```
-## `user_related_tests.py`
-### `test_user_deletion_invalid_user`
-```
-        Test user deletion with invalid user.
-        
-```
-## `user_related_tests.py`
 ### `test_user_creation_duplicate_data`
 ```
         Test user creation with duplicate data.
+
+        This test case checks whether the system prevents the creation of duplicate users. It first creates a user
+        using the `test_user_creation_expected_data` method, waits for 5 seconds, and then tries to create another
+        user with the same data. If the second creation attempt succeeds, the test fails.
+        
+```
+## `user_related_tests.py`
+### `test_user_creation_duplicate_data_after_deletion`
+```
+        Test user creation with duplicate data after deletion.
+
+        This test case checks if a user can be created with duplicate data after the same user has been deleted.
+        It first creates a user with expected data using the test_user_creation_expected_data() method.
+        Then it waits for 5 seconds before attempting to delete the user using the test_user_deletion_as_expected() method.
+        After waiting for another 5 seconds, it again creates a user with the same data using the test_user_creation_expected_data() method.
+        If the user is successfully created, it means that the test has failed and raises an exception with the message "Duplicate user creation succeeded".
         
 ```
 ## `validator_test.py`
@@ -391,23 +404,5 @@
         This test function tests the successful rejection of an edited project in LabelHub. 
         It logs in to the LabelHub account, navigates to the project, edits the project, 
         rejects the changes, and verifies that the changes were rejected successfully.
-        
-```
-## `validator_test.py`
-### `test_project_selection_invalid_project`
-```
-        Test project selection with invalid project name.
-        
-```
-## `validator_test.py`
-### `test_project_editing_invalid_tag`
-```
-        Test project editing with invalid tag.
-        
-```
-## `validator_test.py`
-### `test_project_rejection_invalid_project`
-```
-        Test project rejection with invalid project.
         
 ```

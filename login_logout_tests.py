@@ -282,6 +282,9 @@ class LoginLogoutTests(unittest.TestCase):
     def test_login_successful_after_failed_attempt(self):
         """
         Test that login is successful after a failed attempt with incorrect credentials.
+        
+        This test case first attempts to login with incorrect credentials to ensure that the login fails.
+        It then attempts to login again with correct credentials to ensure that the login is successful.
         """
         self.test_login_unsuccessful_incorrect_credentials()
         self.load_again = False
@@ -289,28 +292,36 @@ class LoginLogoutTests(unittest.TestCase):
         self.load_again = True
 
     def test_login_unsuccessful_empty_username(self):
-        """
-        Test case to verify that login is unsuccessful when the username field is left empty.
-        """
-        driver = self.driver
-        driver.get(self.base_url + "/login")
-        driver.implicitly_wait(10)
+            """
+            Test case to verify that login is unsuccessful when the username field is left empty.
 
-        email_input = driver.find_element(By.XPATH, "//*[@id=\"username\"]")
-        email_input.send_keys("")
+            Steps:
+            1. Navigate to the login page
+            2. Find the email input field and leave it empty
+            3. Find the password input field and enter a valid password
+            4. Click on the login button
+            5. Wait for the error message to appear
+            6. Verify that the error message contains the text "Required"
+            """
+            driver = self.driver
+            driver.get(self.base_url + "/login")
+            driver.implicitly_wait(10)
 
-        password_input = driver.find_element(By.XPATH, "//*[@id=\"password\"]")
-        password_input.send_keys("Abc@123")
+            email_input = driver.find_element(By.XPATH, "//*[@id=\"username\"]")
+            email_input.send_keys("")
 
-        login_button = driver.find_element(By.XPATH, "/html/body/div/div/div[2]/form/button")
-        login_button.click()
+            password_input = driver.find_element(By.XPATH, "//*[@id=\"password\"]")
+            password_input.send_keys("Abc@123")
 
-        try:
-            time.sleep(1)
-            error_message = self.wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div/div[2]/form/div[1]/div/div/p")))
-            self.assertIn("Required", error_message.text)
-        except:
-            self.fail("Error message not found")
+            login_button = driver.find_element(By.XPATH, "/html/body/div/div/div[2]/form/button")
+            login_button.click()
+
+            try:
+                time.sleep(1)
+                error_message = self.wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div/div[2]/form/div[1]/div/div/p")))
+                self.assertIn("Required", error_message.text)
+            except:
+                self.fail("Error message not found")
 
     def test_login_unsuccessful_empty_password(self):
         """
@@ -344,28 +355,30 @@ class LoginLogoutTests(unittest.TestCase):
             self.fail("Error message not found")
 
     def test_login_unsuccessful_empty_credentials(self):
-        """
-        Test case to verify that login is unsuccessful when empty credentials are provided.
-        """
-        driver = self.driver
-        driver.get(self.base_url + "/login")
-        driver.implicitly_wait(10)
+            """
+            Test case to verify that login is unsuccessful when empty credentials are provided.
+            This test case navigates to the login page, enters empty email and password fields, clicks the login button,
+            and verifies that the appropriate error messages are displayed on the page.
+            """
+            driver = self.driver
+            driver.get(self.base_url + "/login")
+            driver.implicitly_wait(10)
 
-        email_input = driver.find_element(By.XPATH, "//*[@id=\"username\"]")
-        email_input.send_keys("")
+            email_input = driver.find_element(By.XPATH, "//*[@id=\"username\"]")
+            email_input.send_keys("")
 
-        password_input = driver.find_element(By.XPATH, "//*[@id=\"password\"]")
-        password_input.send_keys("")
+            password_input = driver.find_element(By.XPATH, "//*[@id=\"password\"]")
+            password_input.send_keys("")
 
-        login_button = driver.find_element(By.XPATH, "/html/body/div/div/div[2]/form/button")
-        login_button.click()
+            login_button = driver.find_element(By.XPATH, "/html/body/div/div/div[2]/form/button")
+            login_button.click()
 
-        try:
-            time.sleep(1)
-            error_message = self.wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div/div[2]/form/div[1]/div/div/p")))
-            self.assertIn("Required", error_message.text)
-            
-            pass_error_message = self.wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div/div/div[2]/form/div[2]/div[2]/div/p")))
-            self.assertIn("Required", pass_error_message.text)
-        except:
-            self.fail("Error messages not found")
+            try:
+                time.sleep(1)
+                error_message = self.wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div/div[2]/form/div[1]/div/div/p")))
+                self.assertIn("Required", error_message.text)
+                
+                pass_error_message = self.wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div/div/div[2]/form/div[2]/div[2]/div/p")))
+                self.assertIn("Required", pass_error_message.text)
+            except:
+                self.fail("Error messages not found")

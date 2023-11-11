@@ -150,14 +150,7 @@ class UserCreationDeletion(unittest.TestCase):
         # self.driver.implicitly_wait(5)
         time.sleep(5)
 
-        # email_input = self.driver.find_element(By.XPATH, "//*[@id=\"username\"]")
-        # email_input.send_keys("admin@gigatech.com")
 
-        # password_input = self.driver.find_element(By.XPATH, "//*[@id=\"password\"]")
-        # password_input.send_keys("Abc@123")
-
-        # login_button = self.driver.find_element(By.XPATH, "/html/body/div/div/div[2]/form/button")
-        # login_button.click()
 
         user_button_from_sidebar = self.wait.until(
             EC.element_to_be_clickable((By.XPATH, '//*[@id="root"]/section/main/aside/div/div/div/div[3]/a/div')))
@@ -292,28 +285,41 @@ class UserCreationDeletion(unittest.TestCase):
                                                  '/html/body/div/section/main/div[2]/div[2]/section/div[3]/div[2]/div/table/tbody/tr[1]/td[3]')
         self.assertEqual(email_address.text.lower(), self.fake_email.lower())
 
-    def test_user_creation_invalid_data(self):
-        """
-        Test user creation with invalid data.
-        """
-        # Navigate to the user creation page
-        # Fill out the user creation form with invalid data
-        # Click the Add User button
-        # Verify that an appropriate error message is displayed
-
-    def test_user_deletion_invalid_user(self):
-        """
-        Test user deletion with invalid user.
-        """
-        # Navigate to the Users page
-        # Attempt to delete a user that does not exist
-        # Verify that an appropriate error message is displayed
 
     def test_user_creation_duplicate_data(self):
         """
         Test user creation with duplicate data.
+
+        This test case checks whether the system prevents the creation of duplicate users. It first creates a user
+        using the `test_user_creation_expected_data` method, waits for 5 seconds, and then tries to create another
+        user with the same data. If the second creation attempt succeeds, the test fails.
         """
-        # Navigate to the user creation page
-        # Fill out the user creation form with an email that already exists in the system
-        # Click the Add User button
-        # Verify that an appropriate error message is displayed
+        self.test_user_creation_expected_data()
+        time.sleep(5)
+        try:
+            self.test_user_creation_expected_data()
+            # if this line is reached, the test has failed
+            self.fail("Duplicate user creation succeeded")
+        except:
+            pass
+        
+    def test_user_creation_duplicate_data_after_deletion(self):
+        """
+        Test user creation with duplicate data after deletion.
+
+        This test case checks if a user can be created with duplicate data after the same user has been deleted.
+        It first creates a user with expected data using the test_user_creation_expected_data() method.
+        Then it waits for 5 seconds before attempting to delete the user using the test_user_deletion_as_expected() method.
+        After waiting for another 5 seconds, it again creates a user with the same data using the test_user_creation_expected_data() method.
+        If the user is successfully created, it means that the test has failed and raises an exception with the message "Duplicate user creation succeeded".
+        """
+        self.test_user_deletion_as_expected()
+        time.sleep(5)
+        try:
+            
+            self.test_user_creation_expected_data()
+            # if this line is reached, the test has failed
+            time.sleep(3)
+            self.fail("Duplicate user creation succeeded")
+        except:
+            pass
